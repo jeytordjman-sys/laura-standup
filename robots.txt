@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Ficheiros internos que não precisam de ser indexados
+Disallow: /404.html
+
+Sitemap: https://elegant-kataifi-f89d97.netlify.app/sitemap.xml
