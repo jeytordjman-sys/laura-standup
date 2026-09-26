@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FBF9F6">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='none' stroke='%23E3B168' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%23E3B168'/%3E%3C/svg%3E">
+<title>GPS da Comunicação</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#FBF9F6;--card:#fff;--ink:#1F2630;--ink2:#4A5260;--mute:#8A9099;--gold:#E3B168;--gold2:#B98A45;--cream:#F6E7CD;--line:#EEE9E1;--navy:#1C2436;--shadow:0 14px 34px -20px rgba(31,38,48,.35)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;line-height:1.55}
+.serif{font-family:'Fraunces',Georgia,serif;font-weight:300}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+.wrap{max-width:430px;margin:0 auto;padding:28px 22px 60px;display:flex;flex-direction:column;gap:22px}
+@media(min-width:900px){.wrap{max-width:960px;display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:26px}.wrap>.full{grid-column:1/-1}}
+h1{font-size:34px;line-height:1.05}
+.sub{color:var(--mute);font-size:14px;margin-top:6px}
+.eyebrow{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold2);font-weight:700}
+
+/* GPS stage */
+.stage{background:#F4F1EA;border-radius:26px;box-shadow:var(--shadow);position:relative;overflow:hidden;border:1px solid var(--line)}
+.mapwrap>svg#gps{display:block;width:100%;height:auto}
+.head{background:#fff;padding:10px 12px 8px;display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--line)}
+.search{background:var(--bg);border:1px solid var(--line);border-radius:22px;height:42px;display:flex;align-items:center;gap:8px;padding:0 6px 0 12px}
+.search svg{flex-shrink:0}
+.search input{flex:1;border:0;outline:none;font:inherit;font-size:14px;color:var(--ink);background:transparent;min-width:0}
+.search button{width:32px;height:32px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:#E8F0FE;flex-shrink:0}
+.mapwrap{position:relative}
+.fab{position:absolute;right:14px;bottom:40px;z-index:3;width:52px;height:52px;border-radius:26px;background:#1A73E8;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -8px rgba(26,115,232,.7)}
+.fab.stop{background:#EA4335}
+.banner{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink2);min-height:22px;padding:0 4px;white-space:nowrap;overflow:hidden}
+.banner .arrow{color:#188038;font-weight:800;font-size:14px;width:16px;text-align:center}
+.banner .b1{font-weight:700;color:var(--ink)}
+.banner .b2{overflow:hidden;text-overflow:ellipsis;color:var(--mute)}
+.banner.arrive .arrow{color:#1A73E8}
+#gps{transition:none}
+.walk{animation:walk .32s ease-in-out infinite alternate}
+@keyframes walk{from{transform:rotate(-6deg) translateY(0)}to{transform:rotate(6deg) translateY(-2px)}}
+@media (prefers-reduced-motion: reduce){.walk{animation:none}}
+.sheet{background:#fff;border-radius:22px 22px 0 0;margin-top:-22px;position:relative;padding:14px 18px 14px;display:flex;flex-direction:column;gap:8px;box-shadow:0 -10px 30px -18px rgba(31,38,48,.35)}
+.sheet::before{content:"";width:36px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 4px}
+.ab{display:flex;align-items:center;gap:10px}
+.dotA{width:22px;height:22px;border-radius:11px;border:2.5px solid var(--ink);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dotB{width:14px;height:14px;border-radius:7px 7px 7px 0;background:#EA4335;transform:rotate(-45deg);margin:0 4px;flex-shrink:0}
+.abt{font-size:15px;font-weight:600;flex:1;padding:6px 0;border-bottom:1px solid var(--line)}
+.why{font-size:14px;line-height:1.5;color:var(--ink);background:#E8F0FE;border-radius:12px;padding:10px 12px}
+.why b{color:#1A73E8}
+.steps{padding-left:20px;font-size:13px;color:var(--ink2);display:flex;flex-direction:column;gap:4px}
+.ctrls button.wheel{width:52px;height:52px;border-radius:26px;background:#1A73E8;border:0;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -8px rgba(26,115,232,.7)}
+.ctrls button.wheel.stop{background:#EA4335}
+.ctrls button.wheel.stop svg{animation:spin 1.6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.ctrls button.wheel.stop svg{animation:none}}
+.lvl{cursor:pointer}
+.lvl rect{fill:rgba(255,255,255,.06);stroke:rgba(255,255,255,.18);stroke-width:1;transition:fill .35s,stroke .35s}
+.lvl text{fill:rgba(255,255,255,.85);font-family:Manrope,sans-serif;font-size:12px;font-weight:600;pointer-events:none}
+.lvl .q{fill:rgba(255,255,255,.45);font-weight:500;font-size:11px}
+.lvl.on rect{fill:rgba(227,177,104,.22);stroke:#E3B168;stroke-width:1.5}
+.lvl.on text{fill:#fff}
+.lvl.on .q{fill:#F6E7CD}
+.place{cursor:pointer}
+.place .post{stroke:#B8B1A4;stroke-width:2}
+.place .sign{fill:#FFFFFF;stroke:#D6D0C4;stroke-width:1;transition:fill .3s,stroke .3s;filter:url(#sh)}
+.place text{fill:#1F2630;font-family:Manrope,sans-serif;font-weight:700;pointer-events:none}
+.place .q{fill:#6B7280;font-weight:500}
+.place .num{fill:#fff}
+.place .badge{fill:#8A9099;transition:fill .3s}
+.place.on .sign{fill:#1A73E8;stroke:#1A73E8}
+.place.on text{fill:#fff}.place.on .q{fill:#DCE8FF}
+.place.on .badge{fill:#fff}.place.on .num{fill:#1A73E8}
+.place.done .badge{fill:#34A853}
+#car{filter:url(#glow)}
+.bob{animation:bob 1.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@media (prefers-reduced-motion: reduce){.bob{animation:none}}
+.route{stroke:#E3B168;stroke-width:2;fill:none;stroke-dasharray:6 6;opacity:.7}
+.cap{margin-top:12px;display:flex;flex-direction:column;gap:6px;min-height:78px}
+.cap .t{font-size:18px}
+.cap .x{font-size:13px;color:rgba(255,255,255,.8)}
+.ctrls{display:flex;gap:8px;margin-top:12px;justify-content:space-between;align-items:center}
+.ctrls button{height:36px;padding:0 14px;border-radius:18px;background:var(--bg);color:var(--ink);font-size:13px;font-weight:600;border:1px solid var(--line)}
+.ctrls button.gold{background:#F6E7CD;color:#1F2630;white-space:nowrap}
+.dots{display:flex;gap:5px}.dots i{width:6px;height:6px;border-radius:3px;background:var(--line)}.dots i.on{background:#1A73E8}
+
+/* Card */
+.card{background:var(--card);border-radius:22px;padding:18px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.card h2{font-size:22px}
+textarea{width:100%;min-height:96px;font:inherit;font-size:15px;color:var(--ink);border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;outline:none;resize:vertical;background:#fff;line-height:1.5}
+textarea:focus{border-color:var(--gold)}
+.primary{height:52px;border-radius:26px;background:var(--ink);color:#fff;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px}
+.primary svg{stroke:var(--gold)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{height:34px;padding:0 12px;border-radius:17px;background:var(--bg);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink2);text-align:left}
+.chip:hover{border-color:var(--gold)}
+.result{border-radius:20px;padding:16px 18px;background:var(--cream);display:flex;flex-direction:column;gap:8px}
+.result .lv{font-size:24px}
+.result .why{font-size:14px;color:var(--ink)}
+.result .hint{font-size:13px;color:var(--ink2);border-top:1px solid rgba(31,38,48,.1);padding-top:8px}
+.bars{display:flex;flex-direction:column;gap:6px}
+.bar{display:grid;grid-template-columns:110px 1fr 28px;gap:8px;align-items:center;font-size:12px;color:var(--ink2)}
+.bar i{display:block;height:6px;border-radius:3px;background:var(--line);overflow:hidden}.bar i b{display:block;height:6px;background:var(--gold);width:0;transition:width .6s}
+.bar span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.tip{font-size:12px;color:var(--mute)}
+
+/* levels legend */
+.legend{display:flex;flex-direction:column;gap:8px}
+.lg{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:var(--bg)}
+.lg .n{width:26px;height:26px;border-radius:13px;background:var(--cream);color:var(--gold2);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lg b{font-size:14px}.lg small{display:block;font-size:12px;color:var(--ink2)}
+
+/* training */
+.q{font-size:17px;line-height:1.4}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.opt{height:44px;border-radius:14px;background:var(--bg);border:1.5px solid var(--line);font-size:13px;font-weight:600}
+.opt.ok{background:#F1F8F2;border-color:#6FA87A}.opt.ko{background:#FBF1EE;border-color:#D08A7C}
+.explain{font-size:13px;color:var(--ink2);background:var(--bg);border-radius:14px;padding:12px}
+.score{font-size:13px;color:var(--mute);display:flex;justify-content:space-between}
+@media (prefers-reduced-motion: reduce){.pin,.bar i b{transition:none}}
+</style>
+</head>
+<body style="margin:0">
+
+<div class="wrap">
+  <div class="full">
+    <div class="eyebrow">Mente Ancorada · Ferramenta</div>
+    <h1 class="serif">GPS da Comunicação</h1>
+    <div class="sub">Seis níveis neurológicos. Descobre em que nível está uma situação — e a que nível responder para que a mudança pegue.</div>
+  </div>
+
+  <!-- GPS -->
+  <div class="stage" id="stage">
+    <div class="head">
+    <div class="search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5F6368" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="txt" placeholder="Escreve a situação… ex.: «Não sou bom a falar em público»"><button id="go" title="Localizar"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1A73E8"><path d="M21 3L3 10.5l8 2.5 2.5 8z"/></svg></button></div>
+    <div class="banner" id="banner"><span class="arrow" id="bArrow">↑</span><span class="b1" id="b1">Pronto para navegar</span><span class="b2" id="b2">Escreve uma situação e toca no volante</span></div>
+    </div>
+    <div class="mapwrap"><svg viewBox="0 60 380 460" id="gps" aria-label="Mapa dos níveis neurológicos">
+      <defs>
+        <pattern id="blocks" width="46" height="46" patternUnits="userSpaceOnUse"><rect x="4" y="4" width="38" height="38" rx="3" fill="#EFEBE3"/></pattern>
+        <radialGradient id="pg" cx="50%" cy="50%"><stop offset="0" stop-color="#4285F4" stop-opacity=".45"/><stop offset="1" stop-color="#4285F4" stop-opacity="0"/></radialGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="sh"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#1F2630" flood-opacity=".25"/></filter>
+      </defs>
+      <rect width="380" height="520" fill="#F4F1EA"/>
+      <rect width="380" height="520" fill="url(#blocks)"/>
+      <!-- parques e água -->
+      <path d="M0 0 L120 0 C 120 40, 60 70, 0 60 Z" fill="#CFE6FF"/>
+      <ellipse cx="330" cy="120" rx="46" ry="30" fill="#CDE8C6"/>
+      <ellipse cx="50" cy="270" rx="40" ry="26" fill="#CDE8C6"/>
+      <ellipse cx="330" cy="330" rx="46" ry="28" fill="#CDE8C6"/>
+      <rect x="0" y="470" width="380" height="50" fill="#CFE6FF"/>
+      <!-- rua -->
+      <path id="road" d="M 70 490 C 70 425.1, 300 436.9, 300 372 C 300 319.2, 80 328.8, 80 276 C 80 234.2, 300 241.8, 300 200 C 300 167.0, 80 173.0, 80 140 C 80 114.7, 300 119.3, 300 94" fill="none" stroke="#D6D0C4" stroke-width="30" stroke-linecap="round"/>
+      <path d="M 70 490 C 70 425.1, 300 436.9, 300 372 C 300 319.2, 80 328.8, 80 276 C 80 234.2, 300 241.8, 300 200 C 300 167.0, 80 173.0, 80 140 C 80 114.7, 300 119.3, 300 94" fill="none" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round"/>
+      <!-- itinerário (A→B) -->
+      <path id="routeBg" d="M 70 490 C 70 425.1, 300 436.9, 300 372 C 300 319.2, 80 328.8, 80 276 C 80 234.2, 300 241.8, 300 200 C 300 167.0, 80 173.0, 80 140 C 80 114.7, 300 119.3, 300 94" fill="none" stroke="#1A73E8" stroke-width="9" stroke-linecap="round" opacity=".18"/>
+      <path id="prog" d="M 70 490 C 70 425.1, 300 436.9, 300 372 C 300 319.2, 80 328.8, 80 276 C 80 234.2, 300 241.8, 300 200 C 300 167.0, 80 173.0, 80 140 C 80 114.7, 300 119.3, 300 94" fill="none" stroke="#1A73E8" stroke-width="7" stroke-linecap="round"/>
+      <g id="places"></g>
+      <g id="pinA" filter="url(#sh)"><circle r="9" fill="#FFFFFF" stroke="#1F2630" stroke-width="2.5"/><text y="4" text-anchor="middle" font-family="Manrope,sans-serif" font-size="10" font-weight="800" fill="#1F2630">A</text></g>
+      <g id="pinB" filter="url(#sh)"><path d="M0 4 C-11 -10 -11 -22 0 -24 C11 -22 11 -10 0 4 Z" fill="#EA4335"/><circle cy="-15" r="4.5" fill="#fff"/><text y="-12" text-anchor="middle" font-family="Manrope,sans-serif" font-size="8" font-weight="800" fill="#EA4335">B</text></g>
+      <g id="exit" opacity="0"><rect x="-70" y="-46" width="140" height="34" rx="8" fill="#1F2630"/><polygon points="-8,-12 8,-12 0,-2" fill="#1F2630"/><text x="0" y="-31" text-anchor="middle" font-family="Manrope,sans-serif" font-size="10" font-weight="700" fill="#F6E7CD" letter-spacing="1">ESTÁS AQUI</text><text id="exitT" x="0" y="-18" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="13" fill="#fff"></text></g>
+      <g id="car"><circle r="24" fill="url(#pg)"/><g class="bob"><g transform="rotate(0)">
+        <path d="M-12 1 C-13 -8 -5 -13 0 -9 C5 -13 13 -8 12 1 C13 7 7 11 0 10 C-7 11 -13 7 -12 1 Z" fill="#F4B8C4" stroke="#1F2630" stroke-width="1.6"/>
+        <path d="M0 -9 L0 10" stroke="#D98CA0" stroke-width="1.2"/>
+        <path d="M-9 -3 C-6 -6 -3 -5 -2 -1 M-9 4 C-6 2 -3 3 -2 7 M9 -3 C6 -6 3 -5 2 -1 M9 4 C6 2 3 3 2 7" fill="none" stroke="#D98CA0" stroke-width="1.2" stroke-linecap="round"/>
+        <circle cx="-4" cy="0" r="2.4" fill="#1F2630"/><circle cx="4" cy="0" r="2.4" fill="#1F2630"/>
+        <circle cx="-3.3" cy="-.8" r=".8" fill="#fff"/><circle cx="4.7" cy="-.8" r=".8" fill="#fff"/>
+        <circle cx="-7" cy="3.5" r="1.6" fill="#F08AA0" opacity=".8"/><circle cx="7" cy="3.5" r="1.6" fill="#F08AA0" opacity=".8"/>
+        <path d="M-3 4.5 Q0 7.5 3 4.5" fill="none" stroke="#1F2630" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M-5 10 L-5 14 M5 10 L5 14" stroke="#1F2630" stroke-width="1.6" stroke-linecap="round"/>
+      </g></g></g>
+    </svg><button class="fab" id="fab" title="Navegar"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5" fill="#fff"/><path d="M3.3 10.5c3-1.5 14.4-1.5 17.4 0M12 14.5V21M9.8 13.4 5 19M14.2 13.4 19 19"/></svg></button></div>
+    <!-- Folha de itinerário (estilo Maps) -->
+    <div class="sheet">
+      <div class="ab"><span class="dotA">A</span><div class="abt" id="fromT">Ambiente</div></div>
+      <div class="ab"><span class="dotB"></span><div class="abt" id="toT">Propósito</div></div>
+      <div class="why" id="why"></div>
+      <ol class="steps" id="steps"></ol>
+      <div class="ctrls"><button id="prev">←</button><div class="dots" id="dots"></div><button id="play" class="wheel" title="Navegar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5" fill="#fff"/><path d="M3.3 10.5c3-1.5 14.4-1.5 17.4 0M12 14.5V21M9.8 13.4 5 19M14.2 13.4 19 19"/></svg></button><button id="next">→</button></div>
+    </div>
+  </div>
+
+  <!-- Detector -->
+  <div class="card">
+    <h2 class="serif">Exemplos para experimentar</h2>
+    <div class="tip">Toca num exemplo — ou escreve a tua frase na barra de pesquisa do mapa. O GPS marca a partida (onde a frase está) e a chegada (onde responder).</div>
+    <div class="chips" id="examples"></div>
+    <div id="out"></div>
+  </div>
+
+  <!-- Legend -->
+  <div class="card">
+    <h2 class="serif">Os seis níveis</h2>
+    <div class="legend" id="legend"></div>
+    <div class="tip">Regra de ouro: um problema sentido num nível resolve-se mais facilmente a partir do nível acima. Falar de identidade quando a questão é de comportamento pesa demais; falar de ambiente quando a questão é de crença não chega.</div>
+  </div>
+
+  <!-- Training -->
+  <div class="card full">
+    <h2 class="serif">Treino rápido</h2>
+    <div class="score"><span id="qn">Situação 1 de 10</span><span id="qs">0 certas</span></div>
+    <div class="q serif" id="qq"></div>
+    <div class="opts" id="qo"></div>
+    <div id="qx"></div>
+  </div>
+</div>
+
+<script>
+const LEVELS=[
+ {k:"ambiente",n:"Ambiente",q:"Onde? Quando? Com quem?",d:"O contexto exterior: o lugar, o momento, as pessoas à volta, os recursos disponíveis.",r:"Muda o cenário: outro lugar, outra hora, outra companhia.",y:300},
+ {k:"comportamento",n:"Comportamento",q:"O quê?",d:"O que a pessoa faz ou diz, observável: ações, palavras, gestos, hábitos.",r:"Ajusta a ação: o que fazer de diferente, concretamente.",y:250},
+ {k:"capacidades",n:"Capacidades",q:"Como?",d:"As competências e estratégias mentais que tornam o comportamento possível.",r:"Aprende ou treina o «como»: uma estratégia, um método, um passo a passo.",y:200},
+ {k:"crencas",n:"Crenças e Valores",q:"Porquê? O que é importante?",d:"O que a pessoa acredita ser verdade e o que valoriza — as permissões e as proibições interiores.",r:"Questiona a crença, reformula, encontra o valor por detrás.",y:150},
+ {k:"identidade",n:"Identidade",q:"Quem?",d:"A noção de quem a pessoa é: «eu sou…», o papel que assume, a imagem de si.",r:"Separa o ser do fazer: «fizeste isto» em vez de «tu és assim».",y:100},
+ {k:"proposito",n:"Propósito",q:"Para quê? Para quem?",d:"O sentido, a missão, a ligação a algo maior do que a pessoa.",r:"Liga a mudança a um sentido: para quem e para quê isto importa.",y:50}
+];
+const EXAMPLES=[
+ "Eu não sou uma pessoa de falar em público.",
+ "Aqui em casa não consigo concentrar-me, há sempre barulho.",
+ "Gritei com ele outra vez ao jantar.",
+ "Não sei como começar uma conversa difícil.",
+ "Pedir ajuda é sinal de fraqueza.",
+ "Para quê tudo isto? Já não vejo sentido no que faço.",
+ "Chego sempre atrasado às reuniões.",
+ "Não tenho tempo para meditar.",
+ "Sou demasiado tímido para isso.",
+ "É importante para mim ser honesto, custe o que custar."
+];
+const CUES={
+ ambiente:{w:[/\b(aqui|ali|l[aá]|em casa|no trabalho|no escrit[óo]rio|na escola|na rua|neste s[íi]tio|nesta casa|nesta empresa)\b/,/\b(barulho|ru[íi]do|espa[çc]o|tempo|hor[aá]rio|horas|manh[ãa]|noite|fim de semana)\b/,/\b(n[ãa]o tenho tempo|n[ãa]o h[áa] condi[çc][õo]es|as pessoas [àa] volta|os meus colegas|a minha fam[íi]lia|o meu chefe)\b/,/\b(quando|onde|com quem)\b/],base:0},
+ comportamento:{w:[/\b(gritei|grito|disse|digo|fiz|fa[çc]o|falei|falo|cheguei|chego|comi|como|fumei|fumo|bati|discuti|discuto|reagi|reajo|evitei|evito|adiei|adio|desliguei|respondi|respondo|mandei|calei)\b/,/\b(outra vez|sempre atrasad[oa]|todos os dias|de novo)\b/],base:0},
+ capacidades:{w:[/\b(n[ãa]o sei como|n[ãa]o consigo|n[ãa]o sou capaz|n[ãa]o fa[çc]o ideia|como (é que|se) )\b/,/\b(aprender|treinar|estrat[ée]gia|m[ée]todo|t[ée]cnica|compet[êe]ncia|habilidade|jeito|capaz|conseguir|como come[çc]ar|como fazer|como dizer)\b/],base:0},
+ crencas:{w:[/\b(sinal de|significa que|quer dizer que|acredito|acho que|penso que|tenho a certeza|[ée] imposs[íi]vel|nunca vai|n[ãa]o se pode|n[ãa]o [ée] poss[íi]vel|devia|deveria|tenho de|tem de|preciso de ser|[ée] sinal de|[ée] importante|o que importa|valor|mere[çc]o|n[ãa]o mere[çc]o|[ée] errado|[ée] certo|custe o que custar|as pessoas s[ãa]o|o mundo [ée]|a vida [ée])\b/],base:0},
+ identidade:{w:[/\b(eu sou|n[ãa]o sou|sou (uma pessoa|assim|demasiado|muito|pouco|um|uma)|sou (t[íi]mid[oa]|fraco|fraca|incapaz|pregui[çc]os[oa]|ansios[oa]|desorganizad[oa]|m[áa]e|pai|l[íi]der|chefe))\b/,/\b(n[ãa]o sou (uma )?pessoa de|nasci assim|[ée] a minha natureza|sempre fui|sou desta maneira|isto sou eu)\b/],base:0},
+ proposito:{w:[/\b(para qu[êe]|sentido|prop[óo]sito|miss[ãa]o|voca[çc][ãa]o|contribuir|legado|algo maior|deus|universo|para quem|servir|a minha causa|o meu lugar no mundo|fazer a diferen[çc]a)\b/,/\b(j[áa] n[ãa]o vejo sentido|para que serve tudo isto|qual [ée] o ponto)\b/],base:0}
+};
+function detect(t){
+  const s=" "+t.toLowerCase().replace(/[“”«»"]/g," ")+" "; const sc={};
+  for(const k in CUES){ let n=0; CUES[k].w.forEach(rx=>{ const m=s.match(new RegExp(rx.source,"gi")); if(m) n+=m.length*(k==="identidade"||k==="proposito"?1.6:k==="crencas"?1.3:1); }); sc[k]=n; }
+  // heuristics: "não consigo" + "sou" -> identity dominates; default to comportamento if verbs of action and nothing else
+  let best=Object.keys(sc).sort((a,b)=>sc[b]-sc[a])[0]; const total=Object.values(sc).reduce((a,b)=>a+b,0);
+  if(total===0){ best = /\b(eu|me|mim|meu|minha)\b/.test(s) ? "comportamento" : "ambiente"; }
+  return {best,sc,total};
+}
+const $=s=>document.querySelector(s); const el=(t,c,h)=>{const e=document.createElement(t); if(c)e.className=c; if(h!=null)e.innerHTML=h; return e;};
+
+/* --- GPS map --- */
+const road=$("#road"), LEN=road.getTotalLength();
+const APEX=[[70, 490], [300, 372], [80, 276], [300, 200], [80, 140], [300, 94]]; const STOPS=APEX.map(([ax,ay])=>{ let best=0,bd=1e9; for(let t=0;t<=1;t+=0.002){ const q=road.getPointAtLength(LEN*t); const dd=(q.x-ax)**2+(q.y-ay)**2; if(dd<bd){bd=dd;best=t;} } return best; }); STOPS[0]=Math.max(0.02,STOPS[0]); STOPS[5]=Math.min(0.99,STOPS[5]); // position along the road for each level
+const P=$("#places");
+LEVELS.forEach((L,i)=>{ const pt=road.getPointAtLength(LEN*STOPS[i]); const right = pt.x<190; const W=150-i*8, H=40-i*2.4, fs=11-i*.5, qs=9.5-i*.5; const sx = right? pt.x+24 : pt.x-24-W; const cy = pt.y + (i===4 ? 14 : i===5 ? -12 : 0); // afasta os dois de cima
+  const g=document.createElementNS("http://www.w3.org/2000/svg","g"); g.setAttribute("class","place"); g.dataset.i=i;
+  g.innerHTML=`<circle cx="${pt.x}" cy="${pt.y}" r="6" fill="#fff" stroke="#1A73E8" stroke-width="3"/>
+    <line class="post" x1="${right?pt.x+8:pt.x-8}" y1="${pt.y}" x2="${right?pt.x+24:pt.x-24}" y2="${cy}"/>
+    <rect class="sign" x="${sx}" y="${cy-H/2}" width="${W}" height="${H}" rx="7"/>
+    <circle class="badge" cx="${sx+16}" cy="${cy}" r="${10-i*.6}"/><text class="num" x="${sx+16}" y="${cy+4}" text-anchor="middle" style="font-size:${11-i*.5}px">${i+1}</text>
+    <text x="${sx+32}" y="${cy-3}" style="font-size:${fs}px">${L.n}</text><text class="q" x="${sx+32}" y="${cy+11}" style="font-size:${qs}px">${L.q}</text>`;
+  g.onclick=()=>drive(i,true); P.appendChild(g); });
+const D=$("#dots"); LEVELS.forEach(()=>D.appendChild(el("i")));
+let cur=0, timer=null, pos=STOPS[0], anim=null, A=0, B=LEVELS.length-1;
+const DIR={ // direções de A para o nível seguinte
+ ambiente:["Nomeia o contexto sem o culpar: «neste lugar / a esta hora acontece isto».","Pergunta pelo comportamento: «o que fazes exatamente quando estás aí?»","Chegaste a Comportamento: agora há uma ação concreta para trabalhar."],
+ comportamento:["Descreve a ação sem julgar: «fizeste X» e não «tu és Y».","Pergunta pelo «como»: «o que precisarias de saber ou treinar para fazer diferente?»","Chegaste a Capacidades: a mudança passa a ser uma competência a ganhar."],
+ capacidades:["Reconhece o que já sabe fazer e o que falta.","Pergunta pelo «porquê»: «o que acreditas sobre isto? o que é importante para ti aqui?»","Chegaste a Crenças e Valores: é aqui que a permissão para mudar se decide."],
+ crencas:["Ouve a crença como uma frase, não como um facto: «acreditas que…».","Pergunta pelo «quem»: «quem és tu quando ages assim — e quem queres ser?»","Chegaste a Identidade: a crença ganha ou perde força conforme a imagem de si."],
+ identidade:["Separa o ser do fazer: «isto é o que fizeste, não o que és».","Pergunta pelo «para quê»: «para quem e para quê isto importa, além de ti?»","Chegaste a Propósito: o sentido dá direção a tudo o que está abaixo."],
+ proposito:["Estás no nível mais alto. Daqui, a viagem é descer: traduzir o sentido em identidade, crenças, capacidades, ações e contexto."]
+};
+function setRoute(a,b,why){ A=a; B=b; const pa=road.getPointAtLength(LEN*STOPS[a]), pb=road.getPointAtLength(LEN*STOPS[b]);
+  $("#pinA").setAttribute("transform",`translate(${pa.x},${pa.y+22})`); $("#pinB").setAttribute("transform",`translate(${pb.x},${pb.y})`);
+  $("#fromT").textContent=`${LEVELS[a].n} — ${LEVELS[a].q}`; $("#toT").textContent=`${LEVELS[b].n} — ${LEVELS[b].q}`;
+  $("#why").innerHTML=why; const st=$("#steps"); st.innerHTML=""; (a===b? DIR.proposito : DIR[LEVELS[a].k]).forEach(x=>st.appendChild(el("li","",x)));
+  const lo=Math.min(STOPS[a],STOPS[b]), hi=Math.max(STOPS[a],STOPS[b]); $("#routeBg").style.strokeDasharray=`${LEN*(hi-lo)} ${LEN}`; $("#routeBg").style.strokeDashoffset=-LEN*lo; }
+
+const SVG=$("#gps"); const VB0=[0,60,380,460]; let vb=VB0.slice();
+function setVB(v){ vb=v; SVG.setAttribute("viewBox",v.map(n=>n.toFixed(1)).join(" ")); }
+function camTo(target,dur,onEnd){ const from=vb.slice(); const t0=performance.now(); const step=(now)=>{ const u=dur?Math.min(1,(now-t0)/dur):1; const e=1-Math.pow(1-u,3); setVB(from.map((f,k)=>f+(target[k]-f)*e)); if(u<1) requestAnimationFrame(step); else onEnd&&onEnd(); }; requestAnimationFrame(step); }
+function followBox(p){ const w=200,h=252; return [Math.max(0,Math.min(380-w,p.x-w/2)), Math.max(60,Math.min(520-h,p.y-h*0.55)), w, h]; }
+let following=false;
+function place(t){ const p=road.getPointAtLength(LEN*t), q=road.getPointAtLength(LEN*Math.min(1,t+0.004)); const ang=Math.atan2(q.y-p.y,q.x-p.x)*180/Math.PI; $("#car").setAttribute("transform",`translate(${p.x},${p.y})`); $("#car .bob g").setAttribute("transform",`scale(${Math.cos(ang*Math.PI/180)<0?-1:1},1)`); const lo=Math.min(STOPS[A],t), hi=Math.max(STOPS[A],t); $("#prog").style.strokeDasharray=`${LEN*(hi-lo)} ${LEN}`; $("#prog").style.strokeDashoffset=-LEN*lo; if(following) setVB(followBox(p)); }
+function banner(a1,b1,b2,arrive){ const B_=$("#banner"); $("#bArrow").textContent=a1; $("#b1").textContent=b1; $("#b2").textContent=b2?"· "+b2:""; B_.classList.toggle("arrive",!!arrive); }
+function drive(i,stop,onArrive){ cur=(i+LEVELS.length)%LEVELS.length; const to=STOPS[cur]; if(stop) stopPlay(); if(anim) cancelAnimationFrame(anim);
+  document.querySelectorAll(".place").forEach(g=>{ g.classList.remove("on"); g.classList.toggle("done",+g.dataset.i<cur && +g.dataset.i>=A); });
+  $("#exit").setAttribute("opacity","0");
+  [...D.children].forEach((d,k)=>d.classList.toggle("on",k===cur));
+  const from=pos, dist=Math.abs(to-from), reduced=matchMedia("(prefers-reduced-motion: reduce)").matches, dur=reduced?0:Math.max(600,dist*4200); const t0=performance.now();
+  $("#car .bob").classList.toggle("walk",dur>0);
+  const step=(now)=>{ const u=dur?Math.min(1,(now-t0)/dur):1; const e=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2; pos=from+(to-from)*e; place(pos); if(u<1) anim=requestAnimationFrame(step); else { anim=null; $("#car .bob").classList.remove("walk"); document.querySelector(`.place[data-i="${cur}"]`).classList.add("on"); onArrive&&onArrive(); } };
+  anim=requestAnimationFrame(step); }
+/* Navegação turn-by-turn: A → B com câmara a seguir */
+function navigate(){ if(timer){ stopPlay(); return; } if(A===B){ banner("●","Já estás no destino",LEVELS[A].n,true); return; }
+  stopPlay(); pos=STOPS[A]; place(pos); following=true; camTo(followBox(road.getPointAtLength(LEN*STOPS[A])),700,()=>{
+    $("#play").classList.add("stop"); $("#fab").classList.add("stop"); timer=true;
+    const leg=()=>{ if(!timer) return; if(cur>=B){ following=false; timer=null; $("#play").classList.remove("stop"); $("#fab").classList.remove("stop"); showExit(B,"CHEGASTE"); banner("●",`Chegaste a ${LEVELS[B].n}`,LEVELS[B].q,true); camTo(VB0,900); return; }
+      const nx=cur+1; banner("↑",`Segue para ${LEVELS[nx].n}`,`«${upQ(cur)}»`); drive(nx,false,()=>{ setTimeout(leg,1400); }); };
+    banner("↑",`A sair de ${LEVELS[A].n}`,LEVELS[A].q); setTimeout(leg,900); }); }
+function stopPlay(){ if(timer){ timer=null; following=false; $("#play").classList.remove("stop"); $("#fab").classList.remove("stop"); camTo(VB0,700); } }
+$("#play").onclick=navigate; $("#fab").onclick=()=>{ $("#stage").scrollIntoView({behavior:"smooth",block:"start"}); navigate(); };
+$("#prev").onclick=()=>drive(cur-1,true); $("#next").onclick=()=>drive(cur+1,true);
+function showExit(i,label){ const pt=road.getPointAtLength(LEN*STOPS[i]); const ex=$("#exit"); ex.setAttribute("transform",`translate(${pt.x},${pt.y-14})`); ex.querySelectorAll("text")[0].textContent=label||"ESTÁS AQUI"; $("#exitT").textContent=LEVELS[i].n; ex.setAttribute("opacity","1"); }
+setRoute(0,LEVELS.length-1,"<b>A viagem completa.</b> Cada nível é um lugar; a comunicação eficaz sabe em qual está e para qual precisa de ir. Toca num painel ou escreve uma frase abaixo."); place(pos); drive(0,true);
+
+/* --- Legend --- */
+LEVELS.forEach((L,i)=>$("#legend").appendChild(el("div","lg",`<div class="n">${i+1}</div><div><b>${L.n}</b> <span style="color:var(--gold2);font-size:12px;font-weight:700"> ${L.q}</span><small>${L.d}</small></div>`)));
+
+/* --- Detector --- */
+EXAMPLES.forEach(x=>{ const b=el("button","chip",x); b.onclick=()=>{ $("#txt").value=x; run(); }; $("#examples").appendChild(b); });
+function run(){ const t=$("#txt").value.trim(); if(!t){ $("#out").innerHTML=""; return; } const {best,sc,total}=detect(t); const i=LEVELS.findIndex(L=>L.k===best); const L=LEVELS[i]; const up=LEVELS[Math.min(i+1,LEVELS.length-1)]; const j=Math.min(i+1,LEVELS.length-1); setRoute(i,j, i===j? "<b>Já estás no topo.</b> Daqui a resposta é traduzir o sentido em passos concretos." : `<b>Porque ir a ${LEVELS[j].n}?</b> A frase vive em ${LEVELS[i].n}; uma mudança pega melhor quando é tratada a partir do nível acima. ${LEVELS[i].r}`); pos=STOPS[i]; place(pos); drive(i,true,()=>{ showExit(i); banner("A",`${LEVELS[i].n} → ${LEVELS[j].n}`, i===j?"já estás no topo":`toca no volante para navegar`); }); $("#stage").scrollIntoView({behavior:"smooth",block:"start"});
+  const max=Math.max(1,...Object.values(sc));
+  $("#out").innerHTML=`<div class="result"><div class="eyebrow">Localizado</div><div class="lv serif">Nível ${i+1} · ${L.n}</div><div class="why">${total? `A frase responde à pergunta <b>«${L.q}»</b>. ${expl(best,t)}`:`Sem pistas fortes — por defeito, situações descritas em primeira pessoa contam como comportamento; descreve o que se passa com mais detalhe.`}</div>
+    <div class="hint"><b>Para abrir caminho:</b> ${L.r}${i<LEVELS.length-1?`<br><b>Pergunta que sobe um nível (${up.n}):</b> «${upQ(i)}»`:""}</div>
+    <div class="bars">${LEVELS.map(x=>`<div class="bar"><span>${x.n}</span><i><b style="width:${Math.round(100*(sc[x.k]||0)/max)}%"></b></i><span>${sc[x.k]?Math.round(100*sc[x.k]/max)+"%":"–"}</span></div>`).join("")}</div></div>`;
+}
+function expl(k,t){ return {ambiente:"Fala do contexto — lugar, tempo ou pessoas à volta — e não da pessoa em si.",comportamento:"Descreve uma ação concreta e observável: algo que foi feito ou dito.",capacidades:"Aponta para um «como»: uma competência ou estratégia que falta ou que se quer ganhar.",crencas:"Expressa uma regra interior, uma convicção ou um valor — o «porquê» por trás da ação.",identidade:"Usa «eu sou / não sou»: a pessoa define-se, em vez de descrever o que faz.",proposito:"Toca no sentido e na finalidade — o «para quê» e o «para quem»."}[k]; }
+function upQ(i){ return ["O que fazes exatamente nessa situação?","Como é que sabes fazer isso — ou o que te faltaria saber?","O que acreditas sobre isso? O que é importante para ti aqui?","Quem és tu quando ages assim — e quem queres ser?","Para quê e para quem isto importa, além de ti?",""][i]; }
+$("#go").onclick=run; $("#txt").addEventListener("keydown",e=>{ if(e.key==="Enter") run(); });
+
+/* --- Training --- */
+const QS=[
+ ["«Não consigo estudar neste quarto, é muito escuro.»","ambiente"],
+ ["«Voltei a adiar a chamada difícil para amanhã.»","comportamento"],
+ ["«Não sei como dizer não sem ofender.»","capacidades"],
+ ["«Quem trabalha muito não precisa de descanso.»","crencas"],
+ ["«Eu sou o desastrado da família.»","identidade"],
+ ["«Sinto que o meu trabalho serve para algo maior do que eu.»","proposito"],
+ ["«Com o meu chefe presente fico sem palavras.»","ambiente"],
+ ["«Respondi ao e-mail com raiva.»","comportamento"],
+ ["«Ser vulnerável é perigoso.»","crencas"],
+ ["«Já sei preparar uma reunião, só me falta praticar.»","capacidades"]
+];
+let qi=0,qok=0; function drawQ(){ if(qi>=QS.length){ $("#qq").textContent= qok>=8?"Excelente. Já lês os níveis de ouvido.": qok>=5?"Bom. O essencial está lá; repete amanhã.":"Vale a pena rever a legenda e tentar de novo."; $("#qo").innerHTML=`<button class="opt" id="again" style="grid-column:1/-1">Repetir treino</button>`; $("#qx").innerHTML=""; $("#qn").textContent="Treino concluído"; $("#again").onclick=()=>{qi=0;qok=0;drawQ();}; return; }
+  const [q,a]=QS[qi]; $("#qn").textContent=`Situação ${qi+1} de ${QS.length}`; $("#qs").textContent=`${qok} certas`; $("#qq").textContent=q; $("#qx").innerHTML="";
+  $("#qo").innerHTML=LEVELS.map(L=>`<button class="opt" data-k="${L.k}">${L.n}</button>`).join("");
+  $("#qo").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ if($("#qx").innerHTML) return; const right=b.dataset.k===a; if(right) qok++; $("#qo").querySelectorAll(".opt").forEach(x=>{ x.classList.toggle("ok",x.dataset.k===a); x.classList.toggle("ko",x===b&&!right); }); const L=LEVELS.find(l=>l.k===a); {const ii=LEVELS.indexOf(L), jj=Math.min(ii+1,LEVELS.length-1); setRoute(ii,jj,`<b>${L.n}.</b> ${L.d}`); pos=STOPS[ii]; place(pos); drive(ii,true,()=>showExit(ii));} $("#qs").textContent=`${qok} certas`;
+    $("#qx").innerHTML=`<div class="explain"><b>${right?"Certo.":"Não é bem isso."}</b> Nível ${LEVELS.indexOf(L)+1} · ${L.n} — ${expl(a,q)} <button class="chip" id="nx" style="margin-top:8px;display:block">Próxima →</button></div>`; $("#nx").onclick=()=>{qi++;drawQ();}; }); }
+drawQ();
+</script>
+</body>
+</html>
