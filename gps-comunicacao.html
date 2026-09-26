@@ -6,10 +6,16 @@
 <meta name="theme-color" content="#FBF9F6">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='none' stroke='%23E3B168' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%23E3B168'/%3E%3C/svg%3E">
 <title>GPS da Comunicação</title>
+<meta name="description" content="Seis níveis neurológicos numa ferramenta interativa: descobre em que nível está uma situação e a que nível responder para que a mudança pegue.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="GPS da Comunicação — Mente Ancorada">
+<meta property="og:description" content="Descobre em que nível neurológico está uma situação e a que nível responder. Mapa interativo, exemplos e treino rápido.">
+<meta property="og:image" content="https://elegant-kataifi-f89d97.netlify.app/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap">
 <script>document.documentElement.classList.add('js')</script>
 <style>
-:root{--bg:#FBF9F6;--card:#fff;--ink:#1F2630;--ink2:#4A5260;--mute:#8A9099;--gold:#E3B168;--gold2:#B98A45;--cream:#F6E7CD;--line:#EEE9E1;--navy:#1C2436;--blue:#1A73E8;--shadow:0 14px 34px -20px rgba(31,38,48,.35);--shadow2:0 26px 50px -24px rgba(31,38,48,.42);--ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+:root{--bg:#FBF9F6;--card:#fff;--ink:#1F2630;--ink2:#4A5260;--mute:#6F7681;--gold:#E3B168;--gold2:#B98A45;--cream:#F6E7CD;--line:#EEE9E1;--navy:#1C2436;--blue:#1A73E8;--shadow:0 14px 34px -20px rgba(31,38,48,.35);--shadow2:0 26px 50px -24px rgba(31,38,48,.42);--ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.56,.64,1)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
@@ -119,7 +125,10 @@ h1 em{font-style:italic;font-weight:300;background:linear-gradient(100deg,var(--
 .ab{display:flex;align-items:center;gap:10px}
 .dotA{width:22px;height:22px;border-radius:11px;border:2.5px solid var(--ink);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .dotB{width:14px;height:14px;border-radius:7px 7px 7px 0;background:#EA4335;transform:rotate(-45deg);margin:0 4px;flex-shrink:0}
-.abt{font-size:15px;font-weight:600;flex:1;padding:6px 0;border-bottom:1px solid var(--line)}
+.abt{font-size:15px;font-weight:600;flex:1;padding:0;border-bottom:1px solid var(--line);position:relative}
+.abt select{font:inherit;font-size:15px;font-weight:600;color:var(--ink);border:0;background:transparent;width:100%;padding:6px 22px 6px 0;appearance:none;-webkit-appearance:none;cursor:pointer;border-radius:6px}
+.abt select:hover{background:var(--bg)}
+.abt::after{content:"▾";position:absolute;right:4px;top:6px;color:var(--mute);pointer-events:none}
 .abt.swap{animation:tickIn .5s var(--ease) both}
 .ab+.ab{position:relative}
 .ab+.ab::before{content:"";position:absolute;left:10px;top:-14px;height:16px;border-left:2px dotted #BFC4CB}
@@ -136,7 +145,8 @@ h1 em{font-style:italic;font-weight:300;background:linear-gradient(100deg,var(--
 .ctrls button.wheel.stop{background:#EA4335;box-shadow:0 8px 20px -8px rgba(234,67,53,.7)}
 .ctrls button.wheel.stop svg{animation:spin 1.6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.place{cursor:pointer;transform-box:fill-box;transform-origin:center}
+.place{cursor:pointer;transform-box:fill-box;transform-origin:center;outline:none}
+.place:focus-visible .sign{stroke:var(--blue);stroke-width:2.5}
 .place.on{animation:placeOn .55s var(--spring)}
 .place.intro{animation:placeIn .7s var(--spring) both;animation-delay:calc(var(--i) * 90ms + .2s)}
 @keyframes placeIn{from{opacity:0;transform:translateY(10px) scale(.85)}to{opacity:1;transform:none}}
@@ -188,6 +198,13 @@ h1 em{font-style:italic;font-weight:300;background:linear-gradient(100deg,var(--
 .bar.top span:first-child{color:var(--ink);font-weight:700}
 .bar span:last-child{text-align:right;font-variant-numeric:tabular-nums}
 .tip{font-size:12px;color:var(--mute)}
+.alt{font-size:13px;color:var(--ink2);background:rgba(255,255,255,.55);border-radius:10px;padding:8px 10px}
+.alt b{color:var(--gold2)}
+.review{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--ink2);animation:rise .5s var(--ease) both}
+.review .r{display:grid;grid-template-columns:1fr auto;gap:8px;padding:8px 10px;border-radius:10px;background:var(--bg)}
+.review .r i{font-style:normal;color:#C0392B;font-weight:600;white-space:nowrap}
+.review .r i b{color:#188038}
+.best{color:var(--gold2)}
 
 /* levels legend */
 .legend{display:flex;flex-direction:column;gap:8px}
@@ -196,7 +213,7 @@ h1 em{font-style:italic;font-weight:300;background:linear-gradient(100deg,var(--
 .lg.on{background:#fff;border-color:rgba(26,115,232,.35);box-shadow:0 0 0 3px rgba(26,115,232,.08)}
 .lg .n{width:26px;height:26px;border-radius:13px;background:var(--cream);color:var(--gold2);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .3s,color .3s,transform .4s var(--spring)}
 .lg.on .n{background:var(--blue);color:#fff;transform:scale(1.1)}
-.lg b{font-size:14px}.lg small{display:block;font-size:12px;color:var(--ink2)}
+.lg b{font-size:14px}.lg .lq{display:block;color:var(--gold2);font-size:12px;font-weight:700}.lg small{display:block;font-size:12px;color:var(--ink2)}
 
 /* training */
 .q{font-size:17px;line-height:1.4}
@@ -310,8 +327,8 @@ h1 em{font-style:italic;font-weight:300;background:linear-gradient(100deg,var(--
     </svg><button class="fab" id="fab" title="Navegar"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5" fill="#fff"/><path d="M3.3 10.5c3-1.5 14.4-1.5 17.4 0M12 14.5V21M9.8 13.4 5 19M14.2 13.4 19 19"/></svg></button></div>
     <!-- Folha de itinerário (estilo Maps) -->
     <div class="sheet">
-      <div class="ab"><span class="dotA">A</span><div class="abt" id="fromT">Ambiente</div></div>
-      <div class="ab"><span class="dotB"></span><div class="abt" id="toT">Propósito</div></div>
+      <div class="ab"><span class="dotA">A</span><div class="abt"><select id="fromS" aria-label="Partida"></select></div></div>
+      <div class="ab"><span class="dotB"></span><div class="abt"><select id="toS" aria-label="Destino"></select></div></div>
       <div class="why" id="why"></div>
       <ol class="steps" id="steps"></ol>
       <div class="ctrls"><button id="prev" aria-label="Nível anterior">←</button><div class="dots" id="dots"></div><button id="play" class="wheel" title="Navegar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5" fill="#fff"/><path d="M3.3 10.5c3-1.5 14.4-1.5 17.4 0M12 14.5V21M9.8 13.4 5 19M14.2 13.4 19 19"/></svg></button><button id="next" aria-label="Nível seguinte">→</button></div>
@@ -336,7 +353,7 @@ h1 em{font-style:italic;font-weight:300;background:linear-gradient(100deg,var(--
   <!-- Training -->
   <div class="card full reveal">
     <h2 class="serif"><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B98A45" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>Treino rápido</h2>
-    <div class="score"><span id="qn">Situação 1 de 10</span><span id="qs">0 certas</span></div>
+    <div class="score"><span id="qn">Situação 1 de 10</span><span><span id="qs">0 certas</span><span id="qbest" class="best"></span></span></div>
     <div class="qbar"><b id="qbar"></b></div>
     <div class="q serif" id="qq"></div>
     <div class="opts" id="qo"></div>
@@ -427,7 +444,8 @@ LEVELS.forEach((L,i)=>{ const pt=road.getPointAtLength(LEN*STOPS[i]); const righ
     <rect class="sign" x="${sx}" y="${cy-H/2}" width="${W}" height="${H}" rx="7"/>
     <circle class="badge" cx="${sx+16}" cy="${cy}" r="${10-i*.6}"/><text class="num" x="${sx+16}" y="${cy+4}" text-anchor="middle" style="font-size:${11-i*.5}px">${i+1}</text>
     <text x="${sx+32}" y="${cy-3}" style="font-size:${fs}px">${L.n}</text><text class="q" x="${sx+32}" y="${cy+11}" style="font-size:${qs}px">${L.q}</text>`;
-  g.onclick=()=>drive(i,true); P.appendChild(g); });
+  g.setAttribute("tabindex","0"); g.setAttribute("role","button"); g.setAttribute("aria-label",`Nível ${i+1}, ${L.n}: ${L.q}`);
+  g.onclick=()=>drive(i,true); g.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); drive(i,true); } }); P.appendChild(g); });
 const D=$("#dots"); LEVELS.forEach(()=>D.appendChild(el("i")));
 let cur=0, timer=null, pos=STOPS[0], anim=null, A=0, B=LEVELS.length-1, walking=false;
 const DIR={ // direções de A para o nível seguinte
@@ -438,12 +456,21 @@ const DIR={ // direções de A para o nível seguinte
  identidade:["Separa o ser do fazer: «isto é o que fizeste, não o que és».","Pergunta pelo «para quê»: «para quem e para quê isto importa, além de ti?»","Chegaste a Propósito: o sentido dá direção a tudo o que está abaixo."],
  proposito:["Estás no nível mais alto. Daqui, a viagem é descer: traduzir o sentido em identidade, crenças, capacidades, ações e contexto."]
 };
+const DOWNQ=["","Onde, quando e com quem vais fazê-lo?","Qual é a primeira ação concreta que isso te permite?","Que competência precisas para viver essa crença?","O que acredita e valoriza alguém que é assim?","Quem és tu ao serviço desse propósito?"]; // DOWNQ[i]: pergunta para descer de i para i-1
+function hopQ(i,dir){ return dir>0? upQ(i) : DOWNQ[i]; }
+function routeSteps(a,b){ if(a===b) return [`Estás em ${LEVELS[a].n}. Escolhe um destino acima (para ganhar perspetiva) ou abaixo (para tornar concreto).`];
+  const dir=b>a?1:-1; if(dir>0&&b===a+1) return DIR[LEVELS[a].k];
+  const out=[]; for(let k=a;k!==b;k+=dir) out.push(`${LEVELS[k].n} → ${LEVELS[k+dir].n}: «${hopQ(k,dir)}»`);
+  out.push(dir>0? `Chegaste a ${LEVELS[b].n}: a mudança ganha permissão e sentido.` : `Chegaste a ${LEVELS[b].n}: o sentido tornou-se concreto e visível.`); return out; }
+const fromS=$("#fromS"), toS=$("#toS");
+LEVELS.forEach((L,i)=>{ fromS.add(new Option(`${L.n} — ${L.q}`,i)); toS.add(new Option(`${L.n} — ${L.q}`,i)); });
+fromS.onchange=()=>{ const a=+fromS.value; setRoute(a,B,`<b>${LEVELS[a].n}.</b> ${LEVELS[a].d}`); drive(a,true,()=>showExit(a)); };
+toS.onchange=()=>{ const b=+toS.value; setRoute(A,b, b===A? `<b>Partida e destino iguais.</b> Escolhe um nível acima para ganhar perspetiva, ou abaixo para tornar concreto.` : b>A? `<b>Subir até ${LEVELS[b].n}.</b> Cada nível acima dá permissão e sentido ao que está abaixo.` : `<b>Descer até ${LEVELS[b].n}.</b> Traduzir o que está acima em algo cada vez mais concreto e observável.`); banner(b>A?"↑":b<A?"↓":"●",`${LEVELS[A].n} → ${LEVELS[b].n}`,"toca no volante para navegar"); };
 function setRoute(a,b,why){ A=a; B=b; const pa=road.getPointAtLength(LEN*STOPS[a]), pb=road.getPointAtLength(LEN*STOPS[b]);
   $("#pinA").setAttribute("transform",`translate(${pa.x},${pa.y+22})`); $("#pinB").setAttribute("transform",`translate(${pb.x},${pb.y})`);
   document.querySelectorAll(".pinIn").forEach(n=>replay(n,"pinIn"));
-  $("#fromT").textContent=`${LEVELS[a].n} — ${LEVELS[a].q}`; $("#toT").textContent=`${LEVELS[b].n} — ${LEVELS[b].q}`;
-  replay($("#fromT"),"swap"); replay($("#toT"),"swap");
-  $("#why").innerHTML=why; replay($("#why"),"swap"); const st=$("#steps"); st.innerHTML=""; (a===b? DIR.proposito : DIR[LEVELS[a].k]).forEach(x=>st.appendChild(el("li","",x)));
+  fromS.value=a; toS.value=b; replay(fromS.parentNode,"swap"); replay(toS.parentNode,"swap");
+  $("#why").innerHTML=why; replay($("#why"),"swap"); const st=$("#steps"); st.innerHTML=""; routeSteps(a,b).forEach(x=>st.appendChild(el("li","",x)));
   const lo=Math.min(STOPS[a],STOPS[b]), hi=Math.max(STOPS[a],STOPS[b]);
   [$("#routeBg"),$("#routeM")].forEach(p=>{ p.style.strokeDasharray=`${LEN*(hi-lo)} ${LEN}`; p.style.strokeDashoffset=-LEN*lo; }); }
 
@@ -456,7 +483,7 @@ function place(t){ const p=road.getPointAtLength(LEN*t), q=road.getPointAtLength
 function banner(a1,b1,b2,arrive){ const B_=$("#banner"); $("#bArrow").textContent=a1; $("#b1").textContent=b1; $("#b2").textContent=b2?"· "+b2:""; B_.classList.toggle("arrive",!!arrive); replay(B_,"tick"); }
 function setPulse(i){ const pu=$("#pulse"); if(i==null){ pu.setAttribute("opacity","0"); return; } const pt=road.getPointAtLength(LEN*STOPS[i]); pu.setAttribute("transform",`translate(${pt.x},${pt.y})`); pu.setAttribute("opacity","1"); }
 function drive(i,stop,onArrive){ cur=(i+LEVELS.length)%LEVELS.length; const to=STOPS[cur]; if(stop) stopPlay(); if(anim) cancelAnimationFrame(anim);
-  document.querySelectorAll(".place").forEach(g=>{ g.classList.remove("on"); g.classList.toggle("done",+g.dataset.i<cur && +g.dataset.i>=A); });
+  document.querySelectorAll(".place").forEach(g=>{ g.classList.remove("on"); const k=+g.dataset.i; g.classList.toggle("done", k!==cur && ((A<=k&&k<cur)||(cur<k&&k<=A))); });
   $("#exit").setAttribute("opacity","0"); setPulse(null);
   [...D.children].forEach((d,k)=>d.classList.toggle("on",k===cur));
   document.querySelectorAll(".lg").forEach((n,k)=>n.classList.toggle("on",k===cur));
@@ -465,12 +492,12 @@ function drive(i,stop,onArrive){ cur=(i+LEVELS.length)%LEVELS.length; const to=S
   const step=(now)=>{ const u=dur?Math.min(1,(now-t0)/dur):1; const e=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2; pos=from+(to-from)*e; place(pos); if(u<1) anim=requestAnimationFrame(step); else { anim=null; walking=false; $("#car .bob").classList.remove("walk"); const g=document.querySelector(`.place[data-i="${cur}"]`); g.classList.add("on"); setPulse(cur); onArrive&&onArrive(); } };
   anim=requestAnimationFrame(step); }
 /* Navegação turn-by-turn: A → B com câmara a seguir */
-function navigate(){ if(timer){ stopPlay(); return; } if(A===B){ banner("●","Já estás no destino",LEVELS[A].n,true); return; }
-  stopPlay(); pos=STOPS[A]; place(pos); following=true; camTo(followBox(road.getPointAtLength(LEN*STOPS[A])),700,()=>{
+function navigate(){ if(timer){ stopPlay(); return; } if(A===B){ banner("●","Já estás no destino","escolhe outro destino na folha",true); return; }
+  const dir=B>A?1:-1; stopPlay(); if(anim) cancelAnimationFrame(anim); cur=A; pos=STOPS[A]; place(pos); following=true; camTo(followBox(road.getPointAtLength(LEN*STOPS[A])),700,()=>{
     $("#play").classList.add("stop"); $("#fab").classList.add("stop"); timer=true;
-    const leg=()=>{ if(!timer) return; if(cur>=B){ following=false; timer=null; $("#play").classList.remove("stop"); $("#fab").classList.remove("stop"); showExit(B,"CHEGASTE"); const pb=road.getPointAtLength(LEN*STOPS[B]); burst(pb.x,pb.y); banner("●",`Chegaste a ${LEVELS[B].n}`,LEVELS[B].q,true); camTo(VB0,900); return; }
-      const nx=cur+1; banner("↑",`Segue para ${LEVELS[nx].n}`,`«${upQ(cur)}»`); drive(nx,false,()=>{ const p=road.getPointAtLength(LEN*STOPS[nx]); if(nx<B) burst(p.x,p.y); setTimeout(leg,1400); }); };
-    banner("↑",`A sair de ${LEVELS[A].n}`,LEVELS[A].q); setTimeout(leg,900); }); }
+    const leg=()=>{ if(!timer) return; if(cur===B){ following=false; timer=null; $("#play").classList.remove("stop"); $("#fab").classList.remove("stop"); showExit(B,"CHEGASTE"); const pb=road.getPointAtLength(LEN*STOPS[B]); burst(pb.x,pb.y); banner("●",`Chegaste a ${LEVELS[B].n}`,LEVELS[B].q,true); camTo(VB0,900); return; }
+      const nx=cur+dir; banner(dir>0?"↑":"↓",`Segue para ${LEVELS[nx].n}`,`«${hopQ(cur,dir)}»`); drive(nx,false,()=>{ const p=road.getPointAtLength(LEN*STOPS[nx]); if(nx!==B) burst(p.x,p.y); setTimeout(leg,1400); }); };
+    banner(dir>0?"↑":"↓",`A sair de ${LEVELS[A].n}`,LEVELS[A].q); setTimeout(leg,900); }); }
 function stopPlay(){ if(timer){ timer=null; following=false; $("#play").classList.remove("stop"); $("#fab").classList.remove("stop"); camTo(VB0,700); } }
 $("#play").onclick=navigate; $("#fab").onclick=()=>{ $("#stage").scrollIntoView({behavior:"smooth",block:"start"}); navigate(); };
 $("#prev").onclick=()=>drive(cur-1,true); $("#next").onclick=()=>drive(cur+1,true);
@@ -478,16 +505,18 @@ function showExit(i,label){ const pt=road.getPointAtLength(LEN*STOPS[i]); const 
 setRoute(0,LEVELS.length-1,"<b>A viagem completa.</b> Cada nível é um lugar; a comunicação eficaz sabe em qual está e para qual precisa de ir. Toca num painel ou escreve uma frase abaixo."); place(pos); drive(0,true);
 
 /* --- Legend --- */
-LEVELS.forEach((L,i)=>{ const b=el("button","lg",`<div class="n">${i+1}</div><div><b>${L.n}</b> <span style="color:var(--gold2);font-size:12px;font-weight:700"> ${L.q}</span><small>${L.d}</small></div>`);
+LEVELS.forEach((L,i)=>{ const b=el("button","lg",`<div class="n">${i+1}</div><div><b>${L.n}</b><span class="lq">${L.q}</span><small>${L.d}</small></div>`);
   b.onclick=()=>{ const j=Math.min(i+1,LEVELS.length-1); setRoute(i,j,`<b>${L.n}.</b> ${L.d} <b>Resposta:</b> ${L.r}`); drive(i,true,()=>showExit(i)); if(innerWidth<900) $("#stage").scrollIntoView({behavior:"smooth",block:"start"}); };
   $("#legend").appendChild(b); });
 document.querySelectorAll(".lg")[0].classList.add("on");
 
 /* --- Detector --- */
 EXAMPLES.forEach((x,k)=>{ const b=el("button","chip",x); b.style.setProperty("--i",k); b.onclick=()=>{ document.querySelectorAll(".chip.picked").forEach(c=>c.classList.remove("picked")); b.classList.add("picked"); $("#txt").value=x; run(); }; $("#examples").appendChild(b); });
-function run(){ const t=$("#txt").value.trim(); if(!t){ $("#out").innerHTML=""; return; } const {best,sc,total}=detect(t); const i=LEVELS.findIndex(L=>L.k===best); const L=LEVELS[i]; const up=LEVELS[Math.min(i+1,LEVELS.length-1)]; const j=Math.min(i+1,LEVELS.length-1); setRoute(i,j, i===j? "<b>Já estás no topo.</b> Daqui a resposta é traduzir o sentido em passos concretos." : `<b>Porque ir a ${LEVELS[j].n}?</b> A frase vive em ${LEVELS[i].n}; uma mudança pega melhor quando é tratada a partir do nível acima. ${LEVELS[i].r}`); pos=STOPS[i]; place(pos); drive(i,true,()=>{ showExit(i); const p=road.getPointAtLength(LEN*STOPS[i]); burst(p.x,p.y); banner("A",`${LEVELS[i].n} → ${LEVELS[j].n}`, i===j?"já estás no topo":`toca no volante para navegar`); }); $("#stage").scrollIntoView({behavior:"smooth",block:"start"});
+function run(){ const t=$("#txt").value.trim(); if(!t){ $("#out").innerHTML=""; return; } const {best,sc,total}=detect(t); const i=LEVELS.findIndex(L=>L.k===best); const L=LEVELS[i]; const up=LEVELS[Math.min(i+1,LEVELS.length-1)]; const j= i===LEVELS.length-1 ? i-1 : i+1; setRoute(i,j, j<i? "<b>Já estás no topo.</b> Daqui a viagem é descer: traduzir o sentido em quem és, no que acreditas e no que fazes." : `<b>Porque ir a ${LEVELS[j].n}?</b> A frase vive em ${LEVELS[i].n}; uma mudança pega melhor quando é tratada a partir do nível acima. ${LEVELS[i].r}`); pos=STOPS[i]; place(pos); drive(i,true,()=>{ showExit(i); const p=road.getPointAtLength(LEN*STOPS[i]); burst(p.x,p.y); banner("A",`${LEVELS[i].n} → ${LEVELS[j].n}`, j<i?"no topo: a viagem é descer":`toca no volante para navegar`); });
+  const order=Object.keys(sc).sort((a,b)=>sc[b]-sc[a]); const alt=order[1]; const ambiguous= total && sc[alt]>0 && sc[alt]>=.5*sc[best]; const AL=LEVELS.find(L=>L.k===alt); $("#stage").scrollIntoView({behavior:"smooth",block:"start"});
   const max=Math.max(1,...Object.values(sc));
   $("#out").innerHTML=`<div class="result"><div class="eyebrow">Localizado</div><div class="lv serif">Nível ${i+1} · ${L.n}</div><div class="why">${total? `A frase responde à pergunta <b>«${L.q}»</b>. ${expl(best,t)}`:`Sem pistas fortes — por defeito, situações descritas em primeira pessoa contam como comportamento; descreve o que se passa com mais detalhe.`}</div>
+    ${ambiguous? `<div class="alt"><b>Também podia ser ${AL.n}.</b> A frase mistura pistas dos dois níveis; confirma com a pergunta «${AL.q}».</div>`:""}
     <div class="hint"><b>Para abrir caminho:</b> ${L.r}${i<LEVELS.length-1?`<br><b>Pergunta que sobe um nível (${up.n}):</b> «${upQ(i)}»`:""}</div>
     <div class="bars">${LEVELS.map(x=>`<div class="bar${x.k===best?" top":""}"><span>${x.n}</span><i><b data-w="${Math.round(100*(sc[x.k]||0)/max)}"></b></i><span>${sc[x.k]?Math.round(100*sc[x.k]/max)+"%":"–"}</span></div>`).join("")}</div></div>`;
   // as barras crescem a partir de zero
@@ -505,7 +534,7 @@ $("#go").onclick=run; $("#txt").addEventListener("keydown",e=>{ if(e.key==="Ente
   setTimeout(tick,2200); })();
 
 /* --- Training --- */
-const QS=[
+const POOL=[
  ["«Não consigo estudar neste quarto, é muito escuro.»","ambiente"],
  ["«Voltei a adiar a chamada difícil para amanhã.»","comportamento"],
  ["«Não sei como dizer não sem ofender.»","capacidades"],
@@ -515,16 +544,41 @@ const QS=[
  ["«Com o meu chefe presente fico sem palavras.»","ambiente"],
  ["«Respondi ao e-mail com raiva.»","comportamento"],
  ["«Ser vulnerável é perigoso.»","crencas"],
- ["«Já sei preparar uma reunião, só me falta praticar.»","capacidades"]
+ ["«Já sei preparar uma reunião, só me falta praticar.»","capacidades"],
+ ["«Na sala de reuniões nova, com aquela luz, ninguém fala.»","ambiente"],
+ ["«Ao fim de semana consigo ler; durante a semana não há silêncio.»","ambiente"],
+ ["«Com a minha mãe ao telefone fico logo tenso.»","ambiente"],
+ ["«Interrompi-a três vezes na mesma conversa.»","comportamento"],
+ ["«Desliguei o telemóvel e fui dar uma volta.»","comportamento"],
+ ["«Digo que sim a tudo o que me pedem.»","comportamento"],
+ ["«Sei o que quero dizer, mas não sei estruturar a apresentação.»","capacidades"],
+ ["«Já consigo respirar fundo antes de responder.»","capacidades"],
+ ["«Não faço ideia de como negociar um aumento.»","capacidades"],
+ ["«Uma boa mãe nunca perde a paciência.»","crencas"],
+ ["«Errar em público é imperdoável.»","crencas"],
+ ["«O que importa é que a equipa se sinta ouvida.»","crencas"],
+ ["«Eu sou uma pessoa ansiosa, sempre fui.»","identidade"],
+ ["«Não sou de pedir favores.»","identidade"],
+ ["«Sou o tipo de líder que resolve tudo sozinho.»","identidade"],
+ ["«Quero que os meus filhos cresçam num mundo com mais escuta.»","proposito"],
+ ["«O meu trabalho faz sentido quando ajudo alguém a mudar.»","proposito"],
+ ["«Para quem estou a fazer isto, afinal?»","proposito"]
 ];
-let qi=0,qok=0; function drawQ(){ $("#qbar").style.width=(100*qi/QS.length)+"%";
-  if(qi>=QS.length){ const msg= qok>=8?"Excelente. Já lês os níveis de ouvido.": qok>=5?"Bom. O essencial está lá; repete amanhã.":"Vale a pena rever a legenda e tentar de novo."; const C=2*Math.PI*26;
+const ROUND=10; let QS=[]; let wrong=[];
+function pickRound(){ const a=POOL.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } QS=a.slice(0,ROUND); wrong=[]; }
+function best(v){ try{ const b=+localStorage.getItem("gps_best")||0; if(v!=null&&v>b){ localStorage.setItem("gps_best",v); return v; } return b; }catch(e){ return v||0; } }
+function showBest(){ const b=best(); $("#qbest").textContent=b? ` · melhor ${b}/${ROUND}`:""; }
+function buzz(p){ try{ if(navigator.vibrate) navigator.vibrate(p); }catch(e){} }
+let qi=0,qok=0; function drawQ(){ if(qi===0&&!QS.length) pickRound(); showBest(); $("#qbar").style.width=(100*qi/QS.length)+"%";
+  if(qi>=QS.length){ const nb=best(qok); const isBest=nb===qok&&qok>0; const msg= qok>=8?"Excelente. Já lês os níveis de ouvido.": qok>=5?"Bom. O essencial está lá; repete amanhã.":"Vale a pena rever a legenda e tentar de novo."; const C=2*Math.PI*26;
     $("#qq").innerHTML=`<div class="final"><svg width="68" height="68" viewBox="0 0 68 68"><circle cx="34" cy="34" r="26" fill="none" stroke="#EEE9E1" stroke-width="6"/><circle class="arc" cx="34" cy="34" r="26" fill="none" stroke="${qok>=8?"#34A853":qok>=5?"#E3B168":"#D08A7C"}" stroke-width="6" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" transform="rotate(-90 34 34)"/><text x="34" y="39" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="17" fill="#1F2630">${qok}/${QS.length}</text></svg><span>${msg}</span></div>`; replay($("#qq"),"swap");
     requestAnimationFrame(()=>requestAnimationFrame(()=>{ const a=$("#qq .arc"); if(a) a.style.strokeDashoffset=C*(1-qok/QS.length); }));
-    $("#qo").innerHTML=`<button class="opt" id="again" style="grid-column:1/-1">Repetir treino</button>`; $("#qx").innerHTML=""; $("#qn").textContent="Treino concluído"; $("#again").onclick=()=>{qi=0;qok=0;drawQ();}; if(qok>=8) confettiFrom($("#qq"),110); return; }
+    $("#qo").innerHTML=`<button class="opt" id="again" style="grid-column:1/-1">Novo treino (situações diferentes)</button>`;
+    $("#qx").innerHTML= wrong.length? `<div class="review"><b style="color:var(--ink)">Para rever</b>${wrong.map(w=>`<div class="r"><span>${w.q}</span><i>${w.gave} → <b>${w.right}</b></i></div>`).join("")}</div>` : `<div class="explain"><b>Sem erros.</b> Nem uma confusão entre níveis.</div>`;
+    $("#qn").textContent="Treino concluído"+(isBest?" · novo recorde":""); showBest(); $("#again").onclick=()=>{qi=0;qok=0;pickRound();drawQ();}; if(qok>=8||isBest) confettiFrom($("#qq"),110); return; }
   const [q,a]=QS[qi]; $("#qn").textContent=`Situação ${qi+1} de ${QS.length}`; $("#qs").textContent=`${qok} certas`; $("#qq").textContent=q; replay($("#qq"),"swap"); $("#qx").innerHTML="";
   $("#qo").innerHTML=LEVELS.map((L,k)=>`<button class="opt" data-k="${L.k}" style="--i:${k}">${L.n}</button>`).join("");
-  $("#qo").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ if($("#qx").innerHTML) return; const right=b.dataset.k===a; if(right){ qok++; replay($("#qs"),"bump"); confettiFrom(b,36); } $("#qo").querySelectorAll(".opt").forEach(x=>{ x.style.animationDelay="0s"; x.classList.toggle("ok",x.dataset.k===a); x.classList.toggle("ko",x===b&&!right); }); const L=LEVELS.find(l=>l.k===a); {const ii=LEVELS.indexOf(L), jj=Math.min(ii+1,LEVELS.length-1); setRoute(ii,jj,`<b>${L.n}.</b> ${L.d}`); pos=STOPS[ii]; place(pos); drive(ii,true,()=>showExit(ii));} $("#qs").textContent=`${qok} certas`; $("#qbar").style.width=(100*(qi+1)/QS.length)+"%";
+  $("#qo").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ if($("#qx").innerHTML) return; const right=b.dataset.k===a; if(right){ qok++; replay($("#qs"),"bump"); confettiFrom(b,36); buzz(30); } else { buzz([40,60,40]); wrong.push({q, gave:LEVELS.find(l=>l.k===b.dataset.k).n, right:LEVELS.find(l=>l.k===a).n}); } $("#qo").querySelectorAll(".opt").forEach(x=>{ x.style.animationDelay="0s"; x.classList.toggle("ok",x.dataset.k===a); x.classList.toggle("ko",x===b&&!right); }); const L=LEVELS.find(l=>l.k===a); {const ii=LEVELS.indexOf(L), jj=Math.min(ii+1,LEVELS.length-1); setRoute(ii,jj,`<b>${L.n}.</b> ${L.d}`); pos=STOPS[ii]; place(pos); drive(ii,true,()=>showExit(ii));} $("#qs").textContent=`${qok} certas`; $("#qbar").style.width=(100*(qi+1)/QS.length)+"%";
     $("#qx").innerHTML=`<div class="explain"><b>${right?"Certo.":"Não é bem isso."}</b> Nível ${LEVELS.indexOf(L)+1} · ${L.n} — ${expl(a,q)} <button class="chip" id="nx" style="margin-top:8px;display:block">Próxima →</button></div>`; $("#nx").onclick=()=>{qi++;drawQ();}; }); }
 drawQ();
 
