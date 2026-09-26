@@ -6,161 +6,293 @@
 <meta name="theme-color" content="#FBF9F6">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='none' stroke='%23E3B168' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%23E3B168'/%3E%3C/svg%3E">
 <title>GPS da Comunicação</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500&family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap">
+<script>document.documentElement.classList.add('js')</script>
 <style>
-:root{--bg:#FBF9F6;--card:#fff;--ink:#1F2630;--ink2:#4A5260;--mute:#8A9099;--gold:#E3B168;--gold2:#B98A45;--cream:#F6E7CD;--line:#EEE9E1;--navy:#1C2436;--shadow:0 14px 34px -20px rgba(31,38,48,.35)}
+:root{--bg:#FBF9F6;--card:#fff;--ink:#1F2630;--ink2:#4A5260;--mute:#8A9099;--gold:#E3B168;--gold2:#B98A45;--cream:#F6E7CD;--line:#EEE9E1;--navy:#1C2436;--blue:#1A73E8;--shadow:0 14px 34px -20px rgba(31,38,48,.35);--shadow2:0 26px 50px -24px rgba(31,38,48,.42);--ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.56,.64,1)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;line-height:1.55}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--cream);color:var(--ink)}
 .serif{font-family:'Fraunces',Georgia,serif;font-weight:300}
-button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* ambient background */
+.aura{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.aura i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;animation:drift 22s ease-in-out infinite alternate}
+.aura i:nth-child(1){width:420px;height:420px;background:#F6E7CD;top:-120px;left:-120px}
+.aura i:nth-child(2){width:360px;height:360px;background:#DCE8FF;top:30%;right:-140px;animation-duration:28s;animation-delay:-6s;opacity:.45}
+.aura i:nth-child(3){width:320px;height:320px;background:#E5F1DF;bottom:-120px;left:20%;animation-duration:32s;animation-delay:-12s;opacity:.4}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.12)}100%{transform:translate(-30px,80px) scale(.95)}}
+.grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
 .wrap{max-width:430px;margin:0 auto;padding:28px 22px 60px;display:flex;flex-direction:column;gap:22px}
 @media(min-width:900px){.wrap{max-width:960px;display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:26px}.wrap>.full{grid-column:1/-1}}
-h1{font-size:34px;line-height:1.05}
-.sub{color:var(--mute);font-size:14px;margin-top:6px}
-.eyebrow{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold2);font-weight:700}
+
+/* hero */
+.hero{display:flex;gap:16px;align-items:flex-start;justify-content:space-between}
+h1{font-size:34px;line-height:1.05;letter-spacing:-.5px}
+@media(min-width:900px){h1{font-size:46px}}
+h1 em{font-style:italic;font-weight:300;background:linear-gradient(100deg,var(--gold2) 0%,var(--gold) 30%,#F7DDAE 50%,var(--gold) 70%,var(--gold2) 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 7s linear infinite;padding-right:2px}
+@keyframes shine{from{background-position:100% 0}to{background-position:-150% 0}}
+.sub{color:var(--mute);font-size:14px;margin-top:8px;max-width:560px}
+.eyebrow{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold2);font-weight:700;display:flex;align-items:center;gap:8px}
+.eyebrow .live{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 0 rgba(227,177,104,.6);animation:live 2s infinite}
+@keyframes live{0%{box-shadow:0 0 0 0 rgba(227,177,104,.6)}70%{box-shadow:0 0 0 9px rgba(227,177,104,0)}100%{box-shadow:0 0 0 0 rgba(227,177,104,0)}}
+.compass{flex-shrink:0;width:58px;height:58px;filter:drop-shadow(0 8px 14px rgba(185,138,69,.28))}
+.compass .needle{transform-origin:29px 29px;animation:needle 5s var(--ease) infinite}
+@keyframes needle{0%,100%{transform:rotate(-18deg)}30%{transform:rotate(24deg)}55%{transform:rotate(8deg)}75%{transform:rotate(14deg)}}
+.compass .ring{transform-origin:29px 29px;animation:spinslow 40s linear infinite}
+@keyframes spinslow{to{transform:rotate(360deg)}}
+
+/* scroll reveal */
+.js .reveal{opacity:0;transform:translateY(26px) scale(.985);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0s)}
+.js .reveal.in{opacity:1;transform:none}
 
 /* GPS stage */
-.stage{background:#F4F1EA;border-radius:26px;box-shadow:var(--shadow);position:relative;overflow:hidden;border:1px solid var(--line)}
+.stage{background:#F4F1EA;border-radius:26px;box-shadow:var(--shadow2);position:relative;overflow:hidden;border:1px solid var(--line);isolation:isolate}
+.stage::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);z-index:5}
 .mapwrap>svg#gps{display:block;width:100%;height:auto}
-.head{background:#fff;padding:10px 12px 8px;display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--line)}
-.search{background:var(--bg);border:1px solid var(--line);border-radius:22px;height:42px;display:flex;align-items:center;gap:8px;padding:0 6px 0 12px}
+.head{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:10px 12px 8px;display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--line);position:relative;z-index:4}
+.search{background:var(--bg);border:1px solid var(--line);border-radius:22px;height:42px;display:flex;align-items:center;gap:8px;padding:0 6px 0 12px;transition:border-color .25s,box-shadow .35s var(--ease),background .25s}
+.search:focus-within{border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(26,115,232,.14),0 10px 24px -14px rgba(26,115,232,.5)}
 .search svg{flex-shrink:0}
 .search input{flex:1;border:0;outline:none;font:inherit;font-size:14px;color:var(--ink);background:transparent;min-width:0}
-.search button{width:32px;height:32px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:#E8F0FE;flex-shrink:0}
-.mapwrap{position:relative}
-.fab{position:absolute;right:14px;bottom:40px;z-index:3;width:52px;height:52px;border-radius:26px;background:#1A73E8;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -8px rgba(26,115,232,.7)}
-.fab.stop{background:#EA4335}
+.search input::placeholder{color:#9AA0A6}
+.search button{width:32px;height:32px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:#E8F0FE;flex-shrink:0;transition:transform .3s var(--spring),background .2s}
+.search button:hover{background:#D2E3FC;transform:rotate(-12deg) scale(1.08)}
+.search button:active{transform:scale(.9)}
+.mapwrap{position:relative;overflow:hidden}
+.mapwrap::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 45%,transparent 60%,rgba(31,38,48,.10) 100%)}
+.fab{position:absolute;right:14px;bottom:40px;z-index:3;width:52px;height:52px;border-radius:26px;background:var(--blue);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -8px rgba(26,115,232,.7);transition:transform .35s var(--spring),background .3s}
+.fab::before{content:"";position:absolute;inset:0;border-radius:inherit;border:2px solid var(--blue);animation:ping 2.4s var(--ease) infinite}
+.fab:hover{transform:scale(1.07)}.fab:active{transform:scale(.92)}
+.fab.stop{background:#EA4335}.fab.stop::before{animation:none;opacity:0}
+.fab.stop svg{animation:spin 1.6s linear infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.7}80%,100%{transform:scale(1.7);opacity:0}}
 .banner{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink2);min-height:22px;padding:0 4px;white-space:nowrap;overflow:hidden}
-.banner .arrow{color:#188038;font-weight:800;font-size:14px;width:16px;text-align:center}
+.banner .arrow{color:#188038;font-weight:800;font-size:14px;width:16px;text-align:center;display:inline-block}
 .banner .b1{font-weight:700;color:var(--ink)}
 .banner .b2{overflow:hidden;text-overflow:ellipsis;color:var(--mute)}
-.banner.arrive .arrow{color:#1A73E8}
+.banner.arrive .arrow{color:var(--blue)}
+.banner.tick>span{animation:tickIn .5s var(--ease) both}
+.banner.tick>span:nth-child(2){animation-delay:.05s}.banner.tick>span:nth-child(3){animation-delay:.1s}
+.banner.tick .arrow{animation:arrowIn .6s var(--spring) both}
+@keyframes tickIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes arrowIn{from{opacity:0;transform:translateY(10px) scale(.4)}to{opacity:1;transform:none}}
 #gps{transition:none}
 .walk{animation:walk .32s ease-in-out infinite alternate}
 @keyframes walk{from{transform:rotate(-6deg) translateY(0)}to{transform:rotate(6deg) translateY(-2px)}}
-@media (prefers-reduced-motion: reduce){.walk{animation:none}}
-.sheet{background:#fff;border-radius:22px 22px 0 0;margin-top:-22px;position:relative;padding:14px 18px 14px;display:flex;flex-direction:column;gap:8px;box-shadow:0 -10px 30px -18px rgba(31,38,48,.35)}
+
+/* map life */
+#gps .cloud{pointer-events:none;animation:cloud linear infinite}
+#gps .c1{animation-duration:48s;animation-delay:-8s}
+#gps .c2{animation-duration:64s;animation-delay:-40s}
+#gps .c3{animation-duration:56s;animation-delay:-24s}
+@keyframes cloud{from{transform:translateX(-160px)}to{transform:translateX(540px)}}
+#gps .waves{animation:waves 6s linear infinite}
+@keyframes waves{to{transform:translateX(-40px)}}
+#gps .tree{transform-box:fill-box;transform-origin:50% 100%;animation:sway 4s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+#flow{stroke-dasharray:.1 13;animation:flow 1.1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-13.1}}
+.pinIn{transform-box:fill-box;transform-origin:50% 100%;animation:pinDrop .7s var(--spring) both}
+@keyframes pinDrop{0%{opacity:0;transform:translateY(-34px) scale(.6)}60%{opacity:1}100%{transform:none}}
+.exitIn{transform-box:fill-box;transform-origin:50% 100%;animation:exitIn .55s var(--spring) both}
+@keyframes exitIn{from{opacity:0;transform:translateY(10px) scale(.7)}to{opacity:1;transform:none}}
+#pulse circle{transform-box:fill-box;transform-origin:center;animation:pulse 2s var(--ease) infinite}
+#pulse circle:nth-child(2){animation-delay:1s}
+@keyframes pulse{from{transform:scale(.6);opacity:.55}to{transform:scale(3.2);opacity:0}}
+#pulse{transition:opacity .4s}
+.spark{transform-box:fill-box;transform-origin:center;animation:spark .9s ease-out forwards;pointer-events:none}
+@keyframes spark{from{opacity:.85;transform:scale(1)}to{opacity:0;transform:scale(.15) translateY(-6px)}}
+.fly{transform-box:fill-box;transform-origin:center;animation:fly .9s var(--ease) forwards;pointer-events:none}
+@keyframes fly{from{opacity:1;transform:translate(0,0) scale(1)}to{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.3)}}
+.ringfx{transform-box:fill-box;transform-origin:center;animation:ringfx .8s var(--ease) forwards;pointer-events:none}
+@keyframes ringfx{from{opacity:.8;transform:scale(.3)}to{opacity:0;transform:scale(2.6)}}
+#car .shadow{transform-box:fill-box;transform-origin:center;animation:shadow 1.2s ease-in-out infinite}
+@keyframes shadow{0%,100%{transform:scale(1);opacity:.2}50%{transform:scale(.8);opacity:.12}}
+
+.sheet{background:#fff;border-radius:22px 22px 0 0;margin-top:-22px;position:relative;z-index:4;padding:14px 18px 14px;display:flex;flex-direction:column;gap:8px;box-shadow:0 -10px 30px -18px rgba(31,38,48,.35)}
 .sheet::before{content:"";width:36px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 4px}
 .ab{display:flex;align-items:center;gap:10px}
 .dotA{width:22px;height:22px;border-radius:11px;border:2.5px solid var(--ink);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .dotB{width:14px;height:14px;border-radius:7px 7px 7px 0;background:#EA4335;transform:rotate(-45deg);margin:0 4px;flex-shrink:0}
 .abt{font-size:15px;font-weight:600;flex:1;padding:6px 0;border-bottom:1px solid var(--line)}
-.why{font-size:14px;line-height:1.5;color:var(--ink);background:#E8F0FE;border-radius:12px;padding:10px 12px}
-.why b{color:#1A73E8}
+.abt.swap{animation:tickIn .5s var(--ease) both}
+.ab+.ab{position:relative}
+.ab+.ab::before{content:"";position:absolute;left:10px;top:-14px;height:16px;border-left:2px dotted #BFC4CB}
+.why{font-size:14px;line-height:1.5;color:var(--ink);background:linear-gradient(135deg,#E8F0FE,#F1F6FF);border-radius:12px;padding:10px 12px}
+.why.swap{animation:tickIn .55s var(--ease) both}
+.why b{color:var(--blue)}
 .steps{padding-left:20px;font-size:13px;color:var(--ink2);display:flex;flex-direction:column;gap:4px}
-.ctrls button.wheel{width:52px;height:52px;border-radius:26px;background:#1A73E8;border:0;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -8px rgba(26,115,232,.7)}
-.ctrls button.wheel.stop{background:#EA4335}
+.steps li{animation:tickIn .5s var(--ease) both}
+.steps li:nth-child(2){animation-delay:.08s}.steps li:nth-child(3){animation-delay:.16s}
+.steps li::marker{color:var(--blue);font-weight:700}
+.ctrls button.wheel{width:52px;height:52px;border-radius:26px;background:var(--blue);border:0;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -8px rgba(26,115,232,.7);transition:transform .35s var(--spring),background .3s,box-shadow .3s}
+.ctrls button.wheel:hover{transform:rotate(-20deg) scale(1.06);box-shadow:0 12px 26px -8px rgba(26,115,232,.8)}
+.ctrls button.wheel:active{transform:scale(.92)}
+.ctrls button.wheel.stop{background:#EA4335;box-shadow:0 8px 20px -8px rgba(234,67,53,.7)}
 .ctrls button.wheel.stop svg{animation:spin 1.6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media (prefers-reduced-motion: reduce){.ctrls button.wheel.stop svg{animation:none}}
-.lvl{cursor:pointer}
-.lvl rect{fill:rgba(255,255,255,.06);stroke:rgba(255,255,255,.18);stroke-width:1;transition:fill .35s,stroke .35s}
-.lvl text{fill:rgba(255,255,255,.85);font-family:Manrope,sans-serif;font-size:12px;font-weight:600;pointer-events:none}
-.lvl .q{fill:rgba(255,255,255,.45);font-weight:500;font-size:11px}
-.lvl.on rect{fill:rgba(227,177,104,.22);stroke:#E3B168;stroke-width:1.5}
-.lvl.on text{fill:#fff}
-.lvl.on .q{fill:#F6E7CD}
-.place{cursor:pointer}
+.place{cursor:pointer;transform-box:fill-box;transform-origin:center}
+.place.on{animation:placeOn .55s var(--spring)}
+.place.intro{animation:placeIn .7s var(--spring) both;animation-delay:calc(var(--i) * 90ms + .2s)}
+@keyframes placeIn{from{opacity:0;transform:translateY(10px) scale(.85)}to{opacity:1;transform:none}}
+@keyframes placeOn{0%{transform:scale(1)}40%{transform:scale(1.08)}100%{transform:scale(1)}}
 .place .post{stroke:#B8B1A4;stroke-width:2}
-.place .sign{fill:#FFFFFF;stroke:#D6D0C4;stroke-width:1;transition:fill .3s,stroke .3s;filter:url(#sh)}
-.place text{fill:#1F2630;font-family:Manrope,sans-serif;font-weight:700;pointer-events:none}
+.place .sign{fill:#FFFFFF;stroke:#D6D0C4;stroke-width:1;transition:fill .35s,stroke .35s;filter:url(#sh)}
+.place:hover .sign{stroke:var(--blue)}
+.place text{fill:#1F2630;font-family:Manrope,sans-serif;font-weight:700;pointer-events:none;transition:fill .35s}
 .place .q{fill:#6B7280;font-weight:500}
 .place .num{fill:#fff}
-.place .badge{fill:#8A9099;transition:fill .3s}
-.place.on .sign{fill:#1A73E8;stroke:#1A73E8}
+.place .badge{fill:#8A9099;transition:fill .35s}
+.place .stop{transition:fill .35s,stroke .35s}
+.place.on .sign{fill:url(#signOn);stroke:var(--blue)}
 .place.on text{fill:#fff}.place.on .q{fill:#DCE8FF}
-.place.on .badge{fill:#fff}.place.on .num{fill:#1A73E8}
+.place.on .badge{fill:#fff}.place.on .num{fill:var(--blue)}
 .place.done .badge{fill:#34A853}
+.place.done .stop{fill:#34A853;stroke:#34A853}
 #car{filter:url(#glow)}
 .bob{animation:bob 1.2s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-@media (prefers-reduced-motion: reduce){.bob{animation:none}}
-.route{stroke:#E3B168;stroke-width:2;fill:none;stroke-dasharray:6 6;opacity:.7}
-.cap{margin-top:12px;display:flex;flex-direction:column;gap:6px;min-height:78px}
-.cap .t{font-size:18px}
-.cap .x{font-size:13px;color:rgba(255,255,255,.8)}
 .ctrls{display:flex;gap:8px;margin-top:12px;justify-content:space-between;align-items:center}
-.ctrls button{height:36px;padding:0 14px;border-radius:18px;background:var(--bg);color:var(--ink);font-size:13px;font-weight:600;border:1px solid var(--line)}
-.ctrls button.gold{background:#F6E7CD;color:#1F2630;white-space:nowrap}
-.dots{display:flex;gap:5px}.dots i{width:6px;height:6px;border-radius:3px;background:var(--line)}.dots i.on{background:#1A73E8}
+.ctrls button{height:36px;padding:0 14px;border-radius:18px;background:var(--bg);color:var(--ink);font-size:13px;font-weight:600;border:1px solid var(--line);transition:transform .25s var(--spring),border-color .2s,background .2s}
+.ctrls button:not(.wheel):hover{border-color:var(--blue);background:#fff}
+.ctrls button:not(.wheel):active{transform:scale(.92)}
+.dots{display:flex;gap:5px;align-items:center}.dots i{width:6px;height:6px;border-radius:3px;background:var(--line);transition:width .45s var(--ease),background .3s}.dots i.on{background:var(--blue);width:18px}
 
 /* Card */
-.card{background:var(--card);border-radius:22px;padding:18px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
-.card h2{font-size:22px}
-textarea{width:100%;min-height:96px;font:inherit;font-size:15px;color:var(--ink);border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;outline:none;resize:vertical;background:#fff;line-height:1.5}
-textarea:focus{border-color:var(--gold)}
+.card{--mx:-999px;--my:-999px;background:radial-gradient(380px circle at var(--mx) var(--my),rgba(227,177,104,.13),transparent 45%),var(--card);border-radius:22px;padding:18px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;border:1px solid transparent;transition:box-shadow .45s var(--ease),transform .45s var(--ease),border-color .45s}
+.card:hover{box-shadow:var(--shadow2);border-color:rgba(227,177,104,.35)}
+.card h2{font-size:22px;display:flex;align-items:center;gap:10px}
+.card h2 .ico{width:30px;height:30px;border-radius:10px;background:var(--cream);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 .primary{height:52px;border-radius:26px;background:var(--ink);color:#fff;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px}
-.primary svg{stroke:var(--gold)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{height:34px;padding:0 12px;border-radius:17px;background:var(--bg);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink2);text-align:left}
-.chip:hover{border-color:var(--gold)}
-.result{border-radius:20px;padding:16px 18px;background:var(--cream);display:flex;flex-direction:column;gap:8px}
+.chip{min-height:34px;padding:7px 12px;border-radius:17px;background:var(--bg);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink2);text-align:left;line-height:1.35;transition:transform .3s var(--spring),border-color .2s,background .2s,box-shadow .3s,color .2s}
+.chip:hover{border-color:var(--gold);background:#fff;color:var(--ink);transform:translateY(-2px);box-shadow:0 8px 16px -10px rgba(185,138,69,.6)}
+.chip:active{transform:scale(.96)}
+.chip.picked{border-color:var(--gold);background:var(--cream);color:var(--ink)}
+.chips .chip{opacity:0;animation:tickIn .5s var(--ease) forwards;animation-delay:calc(var(--i) * 40ms + .3s)}
+.result{border-radius:20px;padding:16px 18px;background:linear-gradient(145deg,#F8EBD4,var(--cream) 60%,#F3DFBE);display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;animation:rise .6s var(--ease) both}
+.result::before{content:"";position:absolute;top:0;left:-60%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);animation:sweep 1.4s .25s var(--ease) both}
+@keyframes sweep{to{left:130%}}
+@keyframes rise{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
 .result .lv{font-size:24px}
-.result .why{font-size:14px;color:var(--ink)}
+.result .why{font-size:14px;color:var(--ink);background:none;padding:0}
 .result .hint{font-size:13px;color:var(--ink2);border-top:1px solid rgba(31,38,48,.1);padding-top:8px}
 .bars{display:flex;flex-direction:column;gap:6px}
-.bar{display:grid;grid-template-columns:110px 1fr 28px;gap:8px;align-items:center;font-size:12px;color:var(--ink2)}
-.bar i{display:block;height:6px;border-radius:3px;background:var(--line);overflow:hidden}.bar i b{display:block;height:6px;background:var(--gold);width:0;transition:width .6s}
+.bar{display:grid;grid-template-columns:110px 1fr 34px;gap:8px;align-items:center;font-size:12px;color:var(--ink2)}
+.bar i{display:block;height:6px;border-radius:3px;background:rgba(255,255,255,.7);overflow:hidden}.bar i b{display:block;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0;transition:width 1s var(--ease)}
+.bar.top span:first-child{color:var(--ink);font-weight:700}
 .bar span:last-child{text-align:right;font-variant-numeric:tabular-nums}
 .tip{font-size:12px;color:var(--mute)}
 
 /* levels legend */
 .legend{display:flex;flex-direction:column;gap:8px}
-.lg{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:var(--bg)}
-.lg .n{width:26px;height:26px;border-radius:13px;background:var(--cream);color:var(--gold2);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lg{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:var(--bg);cursor:pointer;border:1px solid transparent;text-align:left;width:100%;transition:transform .35s var(--ease),background .3s,border-color .3s,box-shadow .35s}
+.lg:hover{transform:translateX(4px);background:#fff;border-color:var(--line);box-shadow:0 8px 18px -14px rgba(31,38,48,.5)}
+.lg.on{background:#fff;border-color:rgba(26,115,232,.35);box-shadow:0 0 0 3px rgba(26,115,232,.08)}
+.lg .n{width:26px;height:26px;border-radius:13px;background:var(--cream);color:var(--gold2);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .3s,color .3s,transform .4s var(--spring)}
+.lg.on .n{background:var(--blue);color:#fff;transform:scale(1.1)}
 .lg b{font-size:14px}.lg small{display:block;font-size:12px;color:var(--ink2)}
 
 /* training */
 .q{font-size:17px;line-height:1.4}
+#qq.swap{animation:tickIn .5s var(--ease) both}
+.qbar{height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.qbar b{display:block;height:100%;width:0;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--blue));transition:width .7s var(--ease)}
 .opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.opt{height:44px;border-radius:14px;background:var(--bg);border:1.5px solid var(--line);font-size:13px;font-weight:600}
-.opt.ok{background:#F1F8F2;border-color:#6FA87A}.opt.ko{background:#FBF1EE;border-color:#D08A7C}
-.explain{font-size:13px;color:var(--ink2);background:var(--bg);border-radius:14px;padding:12px}
+@media(min-width:900px){.opts{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.opt{height:44px;border-radius:14px;background:var(--bg);border:1.5px solid var(--line);font-size:13px;font-weight:600;transition:transform .3s var(--spring),border-color .2s,background .25s,box-shadow .3s}
+.opt:hover{border-color:var(--gold);background:#fff;transform:translateY(-2px);box-shadow:0 10px 18px -12px rgba(185,138,69,.6)}
+.opt:active{transform:scale(.96)}
+.opts .opt{animation:tickIn .45s var(--ease) both;animation-delay:calc(var(--i) * 45ms)}
+.opt.ok{background:#F1F8F2;border-color:#6FA87A;animation:okPop .55s var(--spring)}
+.opt.ko{background:#FBF1EE;border-color:#D08A7C;animation:shake .45s ease}
+@keyframes okPop{0%{transform:scale(1)}40%{transform:scale(1.07)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.explain{font-size:13px;color:var(--ink2);background:var(--bg);border-radius:14px;padding:12px;animation:rise .5s var(--ease) both}
 .score{font-size:13px;color:var(--mute);display:flex;justify-content:space-between}
-@media (prefers-reduced-motion: reduce){.pin,.bar i b{transition:none}}
+#qs.bump{animation:okPop .5s var(--spring);color:#188038}
+.final{display:flex;align-items:center;gap:16px}
+.final svg{flex-shrink:0}
+.final .arc{transition:stroke-dashoffset 1.4s var(--ease)}
+
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .js .reveal{opacity:1;transform:none}
+  .chips .chip{opacity:1}
+}
 </style>
 </head>
-<body style="margin:0">
+<body>
+<div class="aura" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="grain" aria-hidden="true"></div>
 
 <div class="wrap">
-  <div class="full">
-    <div class="eyebrow">Mente Ancorada · Ferramenta</div>
-    <h1 class="serif">GPS da Comunicação</h1>
-    <div class="sub">Seis níveis neurológicos. Descobre em que nível está uma situação — e a que nível responder para que a mudança pegue.</div>
+  <div class="full hero reveal">
+    <div>
+      <div class="eyebrow"><span class="live"></span>Mente Ancorada · Ferramenta</div>
+      <h1 class="serif">GPS da <em>Comunicação</em></h1>
+      <div class="sub">Seis níveis neurológicos. Descobre em que nível está uma situação — e a que nível responder para que a mudança pegue.</div>
+    </div>
+    <svg class="compass" viewBox="0 0 58 58" aria-hidden="true">
+      <circle cx="29" cy="29" r="27" fill="#fff" stroke="#EEE9E1"/>
+      <g class="ring"><circle cx="29" cy="29" r="22" fill="none" stroke="#E3B168" stroke-width="1.2" stroke-dasharray="1.5 4.3"/></g>
+      <text x="29" y="13" text-anchor="middle" font-family="Manrope,sans-serif" font-size="6" font-weight="800" fill="#B98A45">N</text>
+      <g class="needle"><path d="M29 12 L33 29 L29 27 L25 29 Z" fill="#EA4335"/><path d="M29 46 L33 29 L29 31 L25 29 Z" fill="#1F2630" opacity=".75"/></g>
+      <circle cx="29" cy="29" r="2.6" fill="#fff" stroke="#1F2630" stroke-width="1.2"/>
+    </svg>
   </div>
 
   <!-- GPS -->
-  <div class="stage" id="stage">
+  <div class="stage reveal" id="stage">
     <div class="head">
-    <div class="search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5F6368" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="txt" placeholder="Escreve a situação… ex.: «Não sou bom a falar em público»"><button id="go" title="Localizar"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1A73E8"><path d="M21 3L3 10.5l8 2.5 2.5 8z"/></svg></button></div>
-    <div class="banner" id="banner"><span class="arrow" id="bArrow">↑</span><span class="b1" id="b1">Pronto para navegar</span><span class="b2" id="b2">Escreve uma situação e toca no volante</span></div>
+    <div class="search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5F6368" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="txt" placeholder="Escreve a situação… ex.: «Não sou bom a falar em público»" aria-label="Situação"><button id="go" title="Localizar"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1A73E8"><path d="M21 3L3 10.5l8 2.5 2.5 8z"/></svg></button></div>
+    <div class="banner" id="banner" aria-live="polite"><span class="arrow" id="bArrow">↑</span><span class="b1" id="b1">Pronto para navegar</span><span class="b2" id="b2">Escreve uma situação e toca no volante</span></div>
     </div>
     <div class="mapwrap"><svg viewBox="0 60 380 460" id="gps" aria-label="Mapa dos níveis neurológicos">
       <defs>
         <pattern id="blocks" width="46" height="46" patternUnits="userSpaceOnUse"><rect x="4" y="4" width="38" height="38" rx="3" fill="#EFEBE3"/></pattern>
+        <pattern id="wavep" width="40" height="12" patternUnits="userSpaceOnUse"><path d="M0 6 q10 -5 20 0 t20 0" fill="none" stroke="#fff" stroke-width="1.2" opacity=".7"/></pattern>
         <radialGradient id="pg" cx="50%" cy="50%"><stop offset="0" stop-color="#4285F4" stop-opacity=".45"/><stop offset="1" stop-color="#4285F4" stop-opacity="0"/></radialGradient>
+        <linearGradient id="signOn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3B8BF0"/><stop offset="1" stop-color="#1557B0"/></linearGradient>
+        <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D6EBFF"/><stop offset="1" stop-color="#B9DBFB"/></linearGradient>
+        <radialGradient id="park" cx="50%" cy="40%"><stop offset="0" stop-color="#D8EDD1"/><stop offset="1" stop-color="#BFE0B6"/></radialGradient>
         <filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         <filter id="sh"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#1F2630" flood-opacity=".25"/></filter>
+        <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+        <mask id="routeMask" maskUnits="userSpaceOnUse" x="0" y="0" width="380" height="520"><path id="routeM" d="M 70 490 C 70 425.1, 300 436.9, 300 372 C 300 319.2, 80 328.8, 80 276 C 80 234.2, 300 241.8, 300 200 C 300 167.0, 80 173.0, 80 140 C 80 114.7, 300 119.3, 300 94" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/></mask>
       </defs>
       <rect width="380" height="520" fill="#F4F1EA"/>
       <rect width="380" height="520" fill="url(#blocks)"/>
       <!-- parques e água -->
-      <path d="M0 0 L120 0 C 120 40, 60 70, 0 60 Z" fill="#CFE6FF"/>
-      <ellipse cx="330" cy="120" rx="46" ry="30" fill="#CDE8C6"/>
-      <ellipse cx="50" cy="270" rx="40" ry="26" fill="#CDE8C6"/>
-      <ellipse cx="330" cy="330" rx="46" ry="28" fill="#CDE8C6"/>
-      <rect x="0" y="470" width="380" height="50" fill="#CFE6FF"/>
+      <path d="M0 0 L120 0 C 120 40, 60 70, 0 60 Z" fill="url(#water)"/>
+      <ellipse cx="330" cy="120" rx="46" ry="30" fill="url(#park)"/>
+      <ellipse cx="50" cy="270" rx="40" ry="26" fill="url(#park)"/>
+      <ellipse cx="330" cy="330" rx="46" ry="28" fill="url(#park)"/>
+      <g id="trees"></g>
+      <rect x="0" y="470" width="380" height="50" fill="url(#water)"/>
+      <rect class="waves" x="0" y="472" width="440" height="48" fill="url(#wavep)" opacity=".8"/>
       <!-- rua -->
       <path id="road" d="M 70 490 C 70 425.1, 300 436.9, 300 372 C 300 319.2, 80 328.8, 80 276 C 80 234.2, 300 241.8, 300 200 C 300 167.0, 80 173.0, 80 140 C 80 114.7, 300 119.3, 300 94" fill="none" stroke="#D6D0C4" stroke-width="30" stroke-linecap="round"/>
       <path d="M 70 490 C 70 425.1, 300 436.9, 300 372 C 300 319.2, 80 328.8, 80 276 C 80 234.2, 300 241.8, 300 200 C 300 167.0, 80 173.0, 80 140 C 80 114.7, 300 119.3, 300 94" fill="none" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round"/>
+      <path d="M 70 490 C 70 425.1, 300 436.9, 300 372 C 300 319.2, 80 328.8, 80 276 C 80 234.2, 300 241.8, 300 200 C 300 167.0, 80 173.0, 80 140 C 80 114.7, 300 119.3, 300 94" fill="none" stroke="#E6E1D8" stroke-width="1.2" stroke-dasharray="8 10"/>
       <!-- itinerário (A→B) -->
       <path id="routeBg" d="M 70 490 C 70 425.1, 300 436.9, 300 372 C 300 319.2, 80 328.8, 80 276 C 80 234.2, 300 241.8, 300 200 C 300 167.0, 80 173.0, 80 140 C 80 114.7, 300 119.3, 300 94" fill="none" stroke="#1A73E8" stroke-width="9" stroke-linecap="round" opacity=".18"/>
       <path id="prog" d="M 70 490 C 70 425.1, 300 436.9, 300 372 C 300 319.2, 80 328.8, 80 276 C 80 234.2, 300 241.8, 300 200 C 300 167.0, 80 173.0, 80 140 C 80 114.7, 300 119.3, 300 94" fill="none" stroke="#1A73E8" stroke-width="7" stroke-linecap="round"/>
+      <path id="flow" mask="url(#routeMask)" d="M 70 490 C 70 425.1, 300 436.9, 300 372 C 300 319.2, 80 328.8, 80 276 C 80 234.2, 300 241.8, 300 200 C 300 167.0, 80 173.0, 80 140 C 80 114.7, 300 119.3, 300 94" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" opacity=".9"/>
+      <g id="pulse" opacity="0"><circle r="8" fill="#1A73E8" opacity=".35"/><circle r="8" fill="#1A73E8" opacity=".35"/></g>
       <g id="places"></g>
-      <g id="pinA" filter="url(#sh)"><circle r="9" fill="#FFFFFF" stroke="#1F2630" stroke-width="2.5"/><text y="4" text-anchor="middle" font-family="Manrope,sans-serif" font-size="10" font-weight="800" fill="#1F2630">A</text></g>
-      <g id="pinB" filter="url(#sh)"><path d="M0 4 C-11 -10 -11 -22 0 -24 C11 -22 11 -10 0 4 Z" fill="#EA4335"/><circle cy="-15" r="4.5" fill="#fff"/><text y="-12" text-anchor="middle" font-family="Manrope,sans-serif" font-size="8" font-weight="800" fill="#EA4335">B</text></g>
-      <g id="exit" opacity="0"><rect x="-70" y="-46" width="140" height="34" rx="8" fill="#1F2630"/><polygon points="-8,-12 8,-12 0,-2" fill="#1F2630"/><text x="0" y="-31" text-anchor="middle" font-family="Manrope,sans-serif" font-size="10" font-weight="700" fill="#F6E7CD" letter-spacing="1">ESTÁS AQUI</text><text id="exitT" x="0" y="-18" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="13" fill="#fff"></text></g>
-      <g id="car"><circle r="24" fill="url(#pg)"/><g class="bob"><g transform="rotate(0)">
+      <g id="trail"></g>
+      <g id="pinA" filter="url(#sh)"><g class="pinIn"><circle r="9" fill="#FFFFFF" stroke="#1F2630" stroke-width="2.5"/><text y="4" text-anchor="middle" font-family="Manrope,sans-serif" font-size="10" font-weight="800" fill="#1F2630">A</text></g></g>
+      <g id="pinB" filter="url(#sh)"><g class="pinIn"><path d="M0 4 C-11 -10 -11 -22 0 -24 C11 -22 11 -10 0 4 Z" fill="#EA4335"/><circle cy="-15" r="4.5" fill="#fff"/><text y="-12" text-anchor="middle" font-family="Manrope,sans-serif" font-size="8" font-weight="800" fill="#EA4335">B</text></g></g>
+      <g id="exit" opacity="0"><g class="exitIn"><rect x="-70" y="-46" width="140" height="34" rx="8" fill="#1F2630"/><polygon points="-8,-12 8,-12 0,-2" fill="#1F2630"/><text x="0" y="-31" text-anchor="middle" font-family="Manrope,sans-serif" font-size="10" font-weight="700" fill="#F6E7CD" letter-spacing="1">ESTÁS AQUI</text><text id="exitT" x="0" y="-18" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="13" fill="#fff"></text></g></g>
+      <g id="car"><circle r="24" fill="url(#pg)"/><ellipse class="shadow" cy="15" rx="9" ry="2.4" fill="#1F2630" opacity=".2"/><g class="bob"><g transform="rotate(0)">
         <path d="M-12 1 C-13 -8 -5 -13 0 -9 C5 -13 13 -8 12 1 C13 7 7 11 0 10 C-7 11 -13 7 -12 1 Z" fill="#F4B8C4" stroke="#1F2630" stroke-width="1.6"/>
         <path d="M0 -9 L0 10" stroke="#D98CA0" stroke-width="1.2"/>
         <path d="M-9 -3 C-6 -6 -3 -5 -2 -1 M-9 4 C-6 2 -3 3 -2 7 M9 -3 C6 -6 3 -5 2 -1 M9 4 C6 2 3 3 2 7" fill="none" stroke="#D98CA0" stroke-width="1.2" stroke-linecap="round"/>
@@ -170,6 +302,11 @@ textarea:focus{border-color:var(--gold)}
         <path d="M-3 4.5 Q0 7.5 3 4.5" fill="none" stroke="#1F2630" stroke-width="1.4" stroke-linecap="round"/>
         <path d="M-5 10 L-5 14 M5 10 L5 14" stroke="#1F2630" stroke-width="1.6" stroke-linecap="round"/>
       </g></g></g>
+      <g id="fx"></g>
+      <!-- nuvens -->
+      <g class="cloud c1" opacity=".55"><g filter="url(#soft)"><ellipse cx="0" cy="170" rx="46" ry="16" fill="#fff"/><ellipse cx="28" cy="160" rx="30" ry="16" fill="#fff"/></g></g>
+      <g class="cloud c2" opacity=".45"><g filter="url(#soft)"><ellipse cx="0" cy="330" rx="54" ry="18" fill="#fff"/><ellipse cx="-26" cy="320" rx="28" ry="14" fill="#fff"/></g></g>
+      <g class="cloud c3" opacity=".4"><g filter="url(#soft)"><ellipse cx="0" cy="430" rx="40" ry="14" fill="#fff"/><ellipse cx="22" cy="424" rx="24" ry="12" fill="#fff"/></g></g>
     </svg><button class="fab" id="fab" title="Navegar"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5" fill="#fff"/><path d="M3.3 10.5c3-1.5 14.4-1.5 17.4 0M12 14.5V21M9.8 13.4 5 19M14.2 13.4 19 19"/></svg></button></div>
     <!-- Folha de itinerário (estilo Maps) -->
     <div class="sheet">
@@ -177,29 +314,30 @@ textarea:focus{border-color:var(--gold)}
       <div class="ab"><span class="dotB"></span><div class="abt" id="toT">Propósito</div></div>
       <div class="why" id="why"></div>
       <ol class="steps" id="steps"></ol>
-      <div class="ctrls"><button id="prev">←</button><div class="dots" id="dots"></div><button id="play" class="wheel" title="Navegar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5" fill="#fff"/><path d="M3.3 10.5c3-1.5 14.4-1.5 17.4 0M12 14.5V21M9.8 13.4 5 19M14.2 13.4 19 19"/></svg></button><button id="next">→</button></div>
+      <div class="ctrls"><button id="prev" aria-label="Nível anterior">←</button><div class="dots" id="dots"></div><button id="play" class="wheel" title="Navegar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5" fill="#fff"/><path d="M3.3 10.5c3-1.5 14.4-1.5 17.4 0M12 14.5V21M9.8 13.4 5 19M14.2 13.4 19 19"/></svg></button><button id="next" aria-label="Nível seguinte">→</button></div>
     </div>
   </div>
 
   <!-- Detector -->
-  <div class="card">
-    <h2 class="serif">Exemplos para experimentar</h2>
+  <div class="card reveal" style="--d:.08s">
+    <h2 class="serif"><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B98A45" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="5"/></svg></span>Exemplos para experimentar</h2>
     <div class="tip">Toca num exemplo — ou escreve a tua frase na barra de pesquisa do mapa. O GPS marca a partida (onde a frase está) e a chegada (onde responder).</div>
     <div class="chips" id="examples"></div>
     <div id="out"></div>
   </div>
 
   <!-- Legend -->
-  <div class="card">
-    <h2 class="serif">Os seis níveis</h2>
+  <div class="card reveal" style="--d:.16s">
+    <h2 class="serif"><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B98A45" stroke-width="2.2" stroke-linecap="round"><path d="M4 20h16M6 16h12M8 12h8M10 8h4M11 4h2"/></svg></span>Os seis níveis</h2>
     <div class="legend" id="legend"></div>
     <div class="tip">Regra de ouro: um problema sentido num nível resolve-se mais facilmente a partir do nível acima. Falar de identidade quando a questão é de comportamento pesa demais; falar de ambiente quando a questão é de crença não chega.</div>
   </div>
 
   <!-- Training -->
-  <div class="card full">
-    <h2 class="serif">Treino rápido</h2>
+  <div class="card full reveal">
+    <h2 class="serif"><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B98A45" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>Treino rápido</h2>
     <div class="score"><span id="qn">Situação 1 de 10</span><span id="qs">0 certas</span></div>
+    <div class="qbar"><b id="qbar"></b></div>
     <div class="q serif" id="qq"></div>
     <div class="opts" id="qo"></div>
     <div id="qx"></div>
@@ -244,21 +382,54 @@ function detect(t){
   return {best,sc,total};
 }
 const $=s=>document.querySelector(s); const el=(t,c,h)=>{const e=document.createElement(t); if(c)e.className=c; if(h!=null)e.innerHTML=h; return e;};
+const NS="http://www.w3.org/2000/svg";
+const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
+// reinicia uma animação CSS (remove a classe, força reflow, volta a pôr)
+function replay(node,cls){ node.classList.remove(cls); void node.getBoundingClientRect(); node.classList.add(cls); }
+
+/* --- efeitos: faíscas, explosões e confetti --- */
+const FX=$("#fx"), TRAIL=$("#trail"); let lastSpark=null;
+function svgEl(tag,attrs,cls){ const n=document.createElementNS(NS,tag); for(const k in attrs) n.setAttribute(k,attrs[k]); if(cls) n.setAttribute("class",cls); return n; }
+function spark(p){ if(REDUCED) return; if(lastSpark && Math.hypot(p.x-lastSpark.x,p.y-lastSpark.y)<7) return; lastSpark={x:p.x,y:p.y};
+  const c=svgEl("circle",{cx:p.x+(Math.random()*6-3),cy:p.y+8+(Math.random()*4-2),r:1.4+Math.random()*1.6,fill:Math.random()<.5?"#E3B168":"#8AB4F8"},"spark");
+  c.addEventListener("animationend",()=>c.remove()); TRAIL.appendChild(c); }
+function burst(x,y){ if(REDUCED) return; const cols=["#E3B168","#1A73E8","#34A853","#EA4335","#F6E7CD"];
+  const ring=svgEl("circle",{cx:x,cy:y,r:10,fill:"none",stroke:"#1A73E8","stroke-width":2},"ringfx"); ring.addEventListener("animationend",()=>ring.remove()); FX.appendChild(ring);
+  for(let k=0;k<14;k++){ const a=k/14*Math.PI*2+Math.random()*.3, d=22+Math.random()*16;
+    const c=svgEl("circle",{cx:x,cy:y,r:1.8+Math.random()*1.8,fill:cols[k%cols.length]},"fly");
+    c.style.setProperty("--dx",(Math.cos(a)*d).toFixed(1)+"px"); c.style.setProperty("--dy",(Math.sin(a)*d).toFixed(1)+"px");
+    c.addEventListener("animationend",()=>c.remove()); FX.appendChild(c); } }
+let cfx=null;
+function confetti(ox,oy,n){ if(REDUCED) return; if(!cfx){ const cv=el("canvas"); cv.id="confetti"; document.body.appendChild(cv); cfx={cv,ctx:cv.getContext("2d"),ps:[],run:false}; }
+  const {cv}=cfx, dpr=Math.min(2,devicePixelRatio||1); cv.width=innerWidth*dpr; cv.height=innerHeight*dpr; cfx.ctx.setTransform(dpr,0,0,dpr,0,0);
+  const cols=["#E3B168","#B98A45","#1A73E8","#34A853","#EA4335","#F6E7CD"];
+  for(let k=0;k<(n||60);k++){ const a=-Math.PI/2+(Math.random()-.5)*Math.PI*1.1, v=5+Math.random()*7;
+    cfx.ps.push({x:ox,y:oy,vx:Math.cos(a)*v,vy:Math.sin(a)*v,w:5+Math.random()*5,h:3+Math.random()*4,r:Math.random()*6,vr:(Math.random()-.5)*.35,c:cols[k%cols.length],life:0}); }
+  if(!cfx.run){ cfx.run=true; requestAnimationFrame(tickConfetti); } }
+function tickConfetti(){ const {ctx,ps}=cfx; ctx.clearRect(0,0,innerWidth,innerHeight);
+  for(let k=ps.length-1;k>=0;k--){ const p=ps[k]; p.vy+=.22; p.vx*=.985; p.vy*=.985; p.x+=p.vx; p.y+=p.vy; p.r+=p.vr; p.life++;
+    if(p.y>innerHeight+20||p.life>220){ ps.splice(k,1); continue; }
+    ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r); ctx.globalAlpha=Math.max(0,1-p.life/220); ctx.fillStyle=p.c; ctx.fillRect(-p.w/2,-p.h/2,p.w,Math.abs(Math.cos(p.r*1.7))*p.h+1); ctx.restore(); }
+  if(ps.length) requestAnimationFrame(tickConfetti); else { cfx.run=false; ctx.clearRect(0,0,innerWidth,innerHeight); } }
+function confettiFrom(node,n){ const r=node.getBoundingClientRect(); confetti(r.left+r.width/2,r.top+r.height/2,n); }
 
 /* --- GPS map --- */
 const road=$("#road"), LEN=road.getTotalLength();
 const APEX=[[70, 490], [300, 372], [80, 276], [300, 200], [80, 140], [300, 94]]; const STOPS=APEX.map(([ax,ay])=>{ let best=0,bd=1e9; for(let t=0;t<=1;t+=0.002){ const q=road.getPointAtLength(LEN*t); const dd=(q.x-ax)**2+(q.y-ay)**2; if(dd<bd){bd=dd;best=t;} } return best; }); STOPS[0]=Math.max(0.02,STOPS[0]); STOPS[5]=Math.min(0.99,STOPS[5]); // position along the road for each level
+// árvores nos parques
+[[318,112],[338,124],[350,108],[40,262],[58,276],[320,322],[342,336],[306,338]].forEach(([x,y],k)=>{ const t=svgEl("g",{},"tree"); t.style.animationDelay=(-k*.7)+"s";
+  t.innerHTML=`<rect x="${x-1}" y="${y}" width="2" height="5" fill="#9C8F78"/><circle cx="${x}" cy="${y-2}" r="${5+(k%3)}" fill="#9FCF92"/><circle cx="${x-1.5}" cy="${y-3.5}" r="${2.4+(k%2)}" fill="#B9E0AE"/>`; $("#trees").appendChild(t); });
 const P=$("#places");
 LEVELS.forEach((L,i)=>{ const pt=road.getPointAtLength(LEN*STOPS[i]); const right = pt.x<190; const W=150-i*8, H=40-i*2.4, fs=11-i*.5, qs=9.5-i*.5; const sx = right? pt.x+24 : pt.x-24-W; const cy = pt.y + (i===4 ? 14 : i===5 ? -12 : 0); // afasta os dois de cima
-  const g=document.createElementNS("http://www.w3.org/2000/svg","g"); g.setAttribute("class","place"); g.dataset.i=i;
-  g.innerHTML=`<circle cx="${pt.x}" cy="${pt.y}" r="6" fill="#fff" stroke="#1A73E8" stroke-width="3"/>
+  const g=document.createElementNS(NS,"g"); g.setAttribute("class","place intro"); g.dataset.i=i; g.addEventListener("animationend",e=>{ if(e.animationName==="placeIn") g.classList.remove("intro"); }); g.style.setProperty("--i",i);
+  g.innerHTML=`<circle class="stop" cx="${pt.x}" cy="${pt.y}" r="6" fill="#fff" stroke="#1A73E8" stroke-width="3"/>
     <line class="post" x1="${right?pt.x+8:pt.x-8}" y1="${pt.y}" x2="${right?pt.x+24:pt.x-24}" y2="${cy}"/>
     <rect class="sign" x="${sx}" y="${cy-H/2}" width="${W}" height="${H}" rx="7"/>
     <circle class="badge" cx="${sx+16}" cy="${cy}" r="${10-i*.6}"/><text class="num" x="${sx+16}" y="${cy+4}" text-anchor="middle" style="font-size:${11-i*.5}px">${i+1}</text>
     <text x="${sx+32}" y="${cy-3}" style="font-size:${fs}px">${L.n}</text><text class="q" x="${sx+32}" y="${cy+11}" style="font-size:${qs}px">${L.q}</text>`;
   g.onclick=()=>drive(i,true); P.appendChild(g); });
 const D=$("#dots"); LEVELS.forEach(()=>D.appendChild(el("i")));
-let cur=0, timer=null, pos=STOPS[0], anim=null, A=0, B=LEVELS.length-1;
+let cur=0, timer=null, pos=STOPS[0], anim=null, A=0, B=LEVELS.length-1, walking=false;
 const DIR={ // direções de A para o nível seguinte
  ambiente:["Nomeia o contexto sem o culpar: «neste lugar / a esta hora acontece isto».","Pergunta pelo comportamento: «o que fazes exatamente quando estás aí?»","Chegaste a Comportamento: agora há uma ação concreta para trabalhar."],
  comportamento:["Descreve a ação sem julgar: «fizeste X» e não «tu és Y».","Pergunta pelo «como»: «o que precisarias de saber ou treinar para fazer diferente?»","Chegaste a Capacidades: a mudança passa a ser uma competência a ganhar."],
@@ -269,52 +440,69 @@ const DIR={ // direções de A para o nível seguinte
 };
 function setRoute(a,b,why){ A=a; B=b; const pa=road.getPointAtLength(LEN*STOPS[a]), pb=road.getPointAtLength(LEN*STOPS[b]);
   $("#pinA").setAttribute("transform",`translate(${pa.x},${pa.y+22})`); $("#pinB").setAttribute("transform",`translate(${pb.x},${pb.y})`);
+  document.querySelectorAll(".pinIn").forEach(n=>replay(n,"pinIn"));
   $("#fromT").textContent=`${LEVELS[a].n} — ${LEVELS[a].q}`; $("#toT").textContent=`${LEVELS[b].n} — ${LEVELS[b].q}`;
-  $("#why").innerHTML=why; const st=$("#steps"); st.innerHTML=""; (a===b? DIR.proposito : DIR[LEVELS[a].k]).forEach(x=>st.appendChild(el("li","",x)));
-  const lo=Math.min(STOPS[a],STOPS[b]), hi=Math.max(STOPS[a],STOPS[b]); $("#routeBg").style.strokeDasharray=`${LEN*(hi-lo)} ${LEN}`; $("#routeBg").style.strokeDashoffset=-LEN*lo; }
+  replay($("#fromT"),"swap"); replay($("#toT"),"swap");
+  $("#why").innerHTML=why; replay($("#why"),"swap"); const st=$("#steps"); st.innerHTML=""; (a===b? DIR.proposito : DIR[LEVELS[a].k]).forEach(x=>st.appendChild(el("li","",x)));
+  const lo=Math.min(STOPS[a],STOPS[b]), hi=Math.max(STOPS[a],STOPS[b]);
+  [$("#routeBg"),$("#routeM")].forEach(p=>{ p.style.strokeDasharray=`${LEN*(hi-lo)} ${LEN}`; p.style.strokeDashoffset=-LEN*lo; }); }
 
 const SVG=$("#gps"); const VB0=[0,60,380,460]; let vb=VB0.slice();
 function setVB(v){ vb=v; SVG.setAttribute("viewBox",v.map(n=>n.toFixed(1)).join(" ")); }
-function camTo(target,dur,onEnd){ const from=vb.slice(); const t0=performance.now(); const step=(now)=>{ const u=dur?Math.min(1,(now-t0)/dur):1; const e=1-Math.pow(1-u,3); setVB(from.map((f,k)=>f+(target[k]-f)*e)); if(u<1) requestAnimationFrame(step); else onEnd&&onEnd(); }; requestAnimationFrame(step); }
+function camTo(target,dur,onEnd){ const from=vb.slice(); const t0=performance.now(); if(REDUCED) dur=0; const step=(now)=>{ const u=dur?Math.min(1,(now-t0)/dur):1; const e=1-Math.pow(1-u,3); setVB(from.map((f,k)=>f+(target[k]-f)*e)); if(u<1) requestAnimationFrame(step); else onEnd&&onEnd(); }; requestAnimationFrame(step); }
 function followBox(p){ const w=200,h=252; return [Math.max(0,Math.min(380-w,p.x-w/2)), Math.max(60,Math.min(520-h,p.y-h*0.55)), w, h]; }
 let following=false;
-function place(t){ const p=road.getPointAtLength(LEN*t), q=road.getPointAtLength(LEN*Math.min(1,t+0.004)); const ang=Math.atan2(q.y-p.y,q.x-p.x)*180/Math.PI; $("#car").setAttribute("transform",`translate(${p.x},${p.y})`); $("#car .bob g").setAttribute("transform",`scale(${Math.cos(ang*Math.PI/180)<0?-1:1},1)`); const lo=Math.min(STOPS[A],t), hi=Math.max(STOPS[A],t); $("#prog").style.strokeDasharray=`${LEN*(hi-lo)} ${LEN}`; $("#prog").style.strokeDashoffset=-LEN*lo; if(following) setVB(followBox(p)); }
-function banner(a1,b1,b2,arrive){ const B_=$("#banner"); $("#bArrow").textContent=a1; $("#b1").textContent=b1; $("#b2").textContent=b2?"· "+b2:""; B_.classList.toggle("arrive",!!arrive); }
+function place(t){ const p=road.getPointAtLength(LEN*t), q=road.getPointAtLength(LEN*Math.min(1,t+0.004)); const ang=Math.atan2(q.y-p.y,q.x-p.x)*180/Math.PI; $("#car").setAttribute("transform",`translate(${p.x},${p.y})`); $("#car .bob g").setAttribute("transform",`scale(${Math.cos(ang*Math.PI/180)<0?-1:1},1)`); const lo=Math.min(STOPS[A],t), hi=Math.max(STOPS[A],t); $("#prog").style.strokeDasharray=`${LEN*(hi-lo)} ${LEN}`; $("#prog").style.strokeDashoffset=-LEN*lo; if(walking) spark(p); if(following) setVB(followBox(p)); }
+function banner(a1,b1,b2,arrive){ const B_=$("#banner"); $("#bArrow").textContent=a1; $("#b1").textContent=b1; $("#b2").textContent=b2?"· "+b2:""; B_.classList.toggle("arrive",!!arrive); replay(B_,"tick"); }
+function setPulse(i){ const pu=$("#pulse"); if(i==null){ pu.setAttribute("opacity","0"); return; } const pt=road.getPointAtLength(LEN*STOPS[i]); pu.setAttribute("transform",`translate(${pt.x},${pt.y})`); pu.setAttribute("opacity","1"); }
 function drive(i,stop,onArrive){ cur=(i+LEVELS.length)%LEVELS.length; const to=STOPS[cur]; if(stop) stopPlay(); if(anim) cancelAnimationFrame(anim);
   document.querySelectorAll(".place").forEach(g=>{ g.classList.remove("on"); g.classList.toggle("done",+g.dataset.i<cur && +g.dataset.i>=A); });
-  $("#exit").setAttribute("opacity","0");
+  $("#exit").setAttribute("opacity","0"); setPulse(null);
   [...D.children].forEach((d,k)=>d.classList.toggle("on",k===cur));
-  const from=pos, dist=Math.abs(to-from), reduced=matchMedia("(prefers-reduced-motion: reduce)").matches, dur=reduced?0:Math.max(600,dist*4200); const t0=performance.now();
-  $("#car .bob").classList.toggle("walk",dur>0);
-  const step=(now)=>{ const u=dur?Math.min(1,(now-t0)/dur):1; const e=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2; pos=from+(to-from)*e; place(pos); if(u<1) anim=requestAnimationFrame(step); else { anim=null; $("#car .bob").classList.remove("walk"); document.querySelector(`.place[data-i="${cur}"]`).classList.add("on"); onArrive&&onArrive(); } };
+  document.querySelectorAll(".lg").forEach((n,k)=>n.classList.toggle("on",k===cur));
+  const from=pos, dist=Math.abs(to-from), dur=REDUCED?0:Math.max(600,dist*4200); const t0=performance.now();
+  walking=dur>0; lastSpark=null; $("#car .bob").classList.toggle("walk",walking);
+  const step=(now)=>{ const u=dur?Math.min(1,(now-t0)/dur):1; const e=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2; pos=from+(to-from)*e; place(pos); if(u<1) anim=requestAnimationFrame(step); else { anim=null; walking=false; $("#car .bob").classList.remove("walk"); const g=document.querySelector(`.place[data-i="${cur}"]`); g.classList.add("on"); setPulse(cur); onArrive&&onArrive(); } };
   anim=requestAnimationFrame(step); }
 /* Navegação turn-by-turn: A → B com câmara a seguir */
 function navigate(){ if(timer){ stopPlay(); return; } if(A===B){ banner("●","Já estás no destino",LEVELS[A].n,true); return; }
   stopPlay(); pos=STOPS[A]; place(pos); following=true; camTo(followBox(road.getPointAtLength(LEN*STOPS[A])),700,()=>{
     $("#play").classList.add("stop"); $("#fab").classList.add("stop"); timer=true;
-    const leg=()=>{ if(!timer) return; if(cur>=B){ following=false; timer=null; $("#play").classList.remove("stop"); $("#fab").classList.remove("stop"); showExit(B,"CHEGASTE"); banner("●",`Chegaste a ${LEVELS[B].n}`,LEVELS[B].q,true); camTo(VB0,900); return; }
-      const nx=cur+1; banner("↑",`Segue para ${LEVELS[nx].n}`,`«${upQ(cur)}»`); drive(nx,false,()=>{ setTimeout(leg,1400); }); };
+    const leg=()=>{ if(!timer) return; if(cur>=B){ following=false; timer=null; $("#play").classList.remove("stop"); $("#fab").classList.remove("stop"); showExit(B,"CHEGASTE"); const pb=road.getPointAtLength(LEN*STOPS[B]); burst(pb.x,pb.y); banner("●",`Chegaste a ${LEVELS[B].n}`,LEVELS[B].q,true); camTo(VB0,900); return; }
+      const nx=cur+1; banner("↑",`Segue para ${LEVELS[nx].n}`,`«${upQ(cur)}»`); drive(nx,false,()=>{ const p=road.getPointAtLength(LEN*STOPS[nx]); if(nx<B) burst(p.x,p.y); setTimeout(leg,1400); }); };
     banner("↑",`A sair de ${LEVELS[A].n}`,LEVELS[A].q); setTimeout(leg,900); }); }
 function stopPlay(){ if(timer){ timer=null; following=false; $("#play").classList.remove("stop"); $("#fab").classList.remove("stop"); camTo(VB0,700); } }
 $("#play").onclick=navigate; $("#fab").onclick=()=>{ $("#stage").scrollIntoView({behavior:"smooth",block:"start"}); navigate(); };
 $("#prev").onclick=()=>drive(cur-1,true); $("#next").onclick=()=>drive(cur+1,true);
-function showExit(i,label){ const pt=road.getPointAtLength(LEN*STOPS[i]); const ex=$("#exit"); ex.setAttribute("transform",`translate(${pt.x},${pt.y-14})`); ex.querySelectorAll("text")[0].textContent=label||"ESTÁS AQUI"; $("#exitT").textContent=LEVELS[i].n; ex.setAttribute("opacity","1"); }
+function showExit(i,label){ const pt=road.getPointAtLength(LEN*STOPS[i]); const ex=$("#exit"); ex.setAttribute("transform",`translate(${pt.x},${pt.y-14})`); ex.querySelectorAll("text")[0].textContent=label||"ESTÁS AQUI"; $("#exitT").textContent=LEVELS[i].n; ex.setAttribute("opacity","1"); replay(ex.querySelector(".exitIn"),"exitIn"); }
 setRoute(0,LEVELS.length-1,"<b>A viagem completa.</b> Cada nível é um lugar; a comunicação eficaz sabe em qual está e para qual precisa de ir. Toca num painel ou escreve uma frase abaixo."); place(pos); drive(0,true);
 
 /* --- Legend --- */
-LEVELS.forEach((L,i)=>$("#legend").appendChild(el("div","lg",`<div class="n">${i+1}</div><div><b>${L.n}</b> <span style="color:var(--gold2);font-size:12px;font-weight:700"> ${L.q}</span><small>${L.d}</small></div>`)));
+LEVELS.forEach((L,i)=>{ const b=el("button","lg",`<div class="n">${i+1}</div><div><b>${L.n}</b> <span style="color:var(--gold2);font-size:12px;font-weight:700"> ${L.q}</span><small>${L.d}</small></div>`);
+  b.onclick=()=>{ const j=Math.min(i+1,LEVELS.length-1); setRoute(i,j,`<b>${L.n}.</b> ${L.d} <b>Resposta:</b> ${L.r}`); drive(i,true,()=>showExit(i)); if(innerWidth<900) $("#stage").scrollIntoView({behavior:"smooth",block:"start"}); };
+  $("#legend").appendChild(b); });
+document.querySelectorAll(".lg")[0].classList.add("on");
 
 /* --- Detector --- */
-EXAMPLES.forEach(x=>{ const b=el("button","chip",x); b.onclick=()=>{ $("#txt").value=x; run(); }; $("#examples").appendChild(b); });
-function run(){ const t=$("#txt").value.trim(); if(!t){ $("#out").innerHTML=""; return; } const {best,sc,total}=detect(t); const i=LEVELS.findIndex(L=>L.k===best); const L=LEVELS[i]; const up=LEVELS[Math.min(i+1,LEVELS.length-1)]; const j=Math.min(i+1,LEVELS.length-1); setRoute(i,j, i===j? "<b>Já estás no topo.</b> Daqui a resposta é traduzir o sentido em passos concretos." : `<b>Porque ir a ${LEVELS[j].n}?</b> A frase vive em ${LEVELS[i].n}; uma mudança pega melhor quando é tratada a partir do nível acima. ${LEVELS[i].r}`); pos=STOPS[i]; place(pos); drive(i,true,()=>{ showExit(i); banner("A",`${LEVELS[i].n} → ${LEVELS[j].n}`, i===j?"já estás no topo":`toca no volante para navegar`); }); $("#stage").scrollIntoView({behavior:"smooth",block:"start"});
+EXAMPLES.forEach((x,k)=>{ const b=el("button","chip",x); b.style.setProperty("--i",k); b.onclick=()=>{ document.querySelectorAll(".chip.picked").forEach(c=>c.classList.remove("picked")); b.classList.add("picked"); $("#txt").value=x; run(); }; $("#examples").appendChild(b); });
+function run(){ const t=$("#txt").value.trim(); if(!t){ $("#out").innerHTML=""; return; } const {best,sc,total}=detect(t); const i=LEVELS.findIndex(L=>L.k===best); const L=LEVELS[i]; const up=LEVELS[Math.min(i+1,LEVELS.length-1)]; const j=Math.min(i+1,LEVELS.length-1); setRoute(i,j, i===j? "<b>Já estás no topo.</b> Daqui a resposta é traduzir o sentido em passos concretos." : `<b>Porque ir a ${LEVELS[j].n}?</b> A frase vive em ${LEVELS[i].n}; uma mudança pega melhor quando é tratada a partir do nível acima. ${LEVELS[i].r}`); pos=STOPS[i]; place(pos); drive(i,true,()=>{ showExit(i); const p=road.getPointAtLength(LEN*STOPS[i]); burst(p.x,p.y); banner("A",`${LEVELS[i].n} → ${LEVELS[j].n}`, i===j?"já estás no topo":`toca no volante para navegar`); }); $("#stage").scrollIntoView({behavior:"smooth",block:"start"});
   const max=Math.max(1,...Object.values(sc));
   $("#out").innerHTML=`<div class="result"><div class="eyebrow">Localizado</div><div class="lv serif">Nível ${i+1} · ${L.n}</div><div class="why">${total? `A frase responde à pergunta <b>«${L.q}»</b>. ${expl(best,t)}`:`Sem pistas fortes — por defeito, situações descritas em primeira pessoa contam como comportamento; descreve o que se passa com mais detalhe.`}</div>
     <div class="hint"><b>Para abrir caminho:</b> ${L.r}${i<LEVELS.length-1?`<br><b>Pergunta que sobe um nível (${up.n}):</b> «${upQ(i)}»`:""}</div>
-    <div class="bars">${LEVELS.map(x=>`<div class="bar"><span>${x.n}</span><i><b style="width:${Math.round(100*(sc[x.k]||0)/max)}%"></b></i><span>${sc[x.k]?Math.round(100*sc[x.k]/max)+"%":"–"}</span></div>`).join("")}</div></div>`;
+    <div class="bars">${LEVELS.map(x=>`<div class="bar${x.k===best?" top":""}"><span>${x.n}</span><i><b data-w="${Math.round(100*(sc[x.k]||0)/max)}"></b></i><span>${sc[x.k]?Math.round(100*sc[x.k]/max)+"%":"–"}</span></div>`).join("")}</div></div>`;
+  // as barras crescem a partir de zero
+  requestAnimationFrame(()=>requestAnimationFrame(()=>$("#out").querySelectorAll(".bar b").forEach((b,k)=>{ b.style.transitionDelay=(k*70)+"ms"; b.style.width=b.dataset.w+"%"; })));
 }
 function expl(k,t){ return {ambiente:"Fala do contexto — lugar, tempo ou pessoas à volta — e não da pessoa em si.",comportamento:"Descreve uma ação concreta e observável: algo que foi feito ou dito.",capacidades:"Aponta para um «como»: uma competência ou estratégia que falta ou que se quer ganhar.",crencas:"Expressa uma regra interior, uma convicção ou um valor — o «porquê» por trás da ação.",identidade:"Usa «eu sou / não sou»: a pessoa define-se, em vez de descrever o que faz.",proposito:"Toca no sentido e na finalidade — o «para quê» e o «para quem»."}[k]; }
 function upQ(i){ return ["O que fazes exatamente nessa situação?","Como é que sabes fazer isso — ou o que te faltaria saber?","O que acreditas sobre isso? O que é importante para ti aqui?","Quem és tu quando ages assim — e quem queres ser?","Para quê e para quem isto importa, além de ti?",""][i]; }
 $("#go").onclick=run; $("#txt").addEventListener("keydown",e=>{ if(e.key==="Enter") run(); });
+
+/* placeholder que se escreve sozinho */
+(function typewriter(){ if(REDUCED) return; const inp=$("#txt"); let i=0,c=0,del=false;
+  const tick=()=>{ if(document.activeElement===inp||inp.value){ setTimeout(tick,900); return; } const s=EXAMPLES[i];
+    if(!del){ c++; if(c>s.length){ del=true; setTimeout(tick,2000); return; } } else { c-=2; if(c<=0){ c=0; del=false; i=(i+1)%EXAMPLES.length; } }
+    inp.placeholder=c? "ex.: «"+s.slice(0,c)+"▏" : "Escreve a situação…"; setTimeout(tick,del?22:48+Math.random()*40); };
+  setTimeout(tick,2200); })();
 
 /* --- Training --- */
 const QS=[
@@ -329,12 +517,23 @@ const QS=[
  ["«Ser vulnerável é perigoso.»","crencas"],
  ["«Já sei preparar uma reunião, só me falta praticar.»","capacidades"]
 ];
-let qi=0,qok=0; function drawQ(){ if(qi>=QS.length){ $("#qq").textContent= qok>=8?"Excelente. Já lês os níveis de ouvido.": qok>=5?"Bom. O essencial está lá; repete amanhã.":"Vale a pena rever a legenda e tentar de novo."; $("#qo").innerHTML=`<button class="opt" id="again" style="grid-column:1/-1">Repetir treino</button>`; $("#qx").innerHTML=""; $("#qn").textContent="Treino concluído"; $("#again").onclick=()=>{qi=0;qok=0;drawQ();}; return; }
-  const [q,a]=QS[qi]; $("#qn").textContent=`Situação ${qi+1} de ${QS.length}`; $("#qs").textContent=`${qok} certas`; $("#qq").textContent=q; $("#qx").innerHTML="";
-  $("#qo").innerHTML=LEVELS.map(L=>`<button class="opt" data-k="${L.k}">${L.n}</button>`).join("");
-  $("#qo").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ if($("#qx").innerHTML) return; const right=b.dataset.k===a; if(right) qok++; $("#qo").querySelectorAll(".opt").forEach(x=>{ x.classList.toggle("ok",x.dataset.k===a); x.classList.toggle("ko",x===b&&!right); }); const L=LEVELS.find(l=>l.k===a); {const ii=LEVELS.indexOf(L), jj=Math.min(ii+1,LEVELS.length-1); setRoute(ii,jj,`<b>${L.n}.</b> ${L.d}`); pos=STOPS[ii]; place(pos); drive(ii,true,()=>showExit(ii));} $("#qs").textContent=`${qok} certas`;
+let qi=0,qok=0; function drawQ(){ $("#qbar").style.width=(100*qi/QS.length)+"%";
+  if(qi>=QS.length){ const msg= qok>=8?"Excelente. Já lês os níveis de ouvido.": qok>=5?"Bom. O essencial está lá; repete amanhã.":"Vale a pena rever a legenda e tentar de novo."; const C=2*Math.PI*26;
+    $("#qq").innerHTML=`<div class="final"><svg width="68" height="68" viewBox="0 0 68 68"><circle cx="34" cy="34" r="26" fill="none" stroke="#EEE9E1" stroke-width="6"/><circle class="arc" cx="34" cy="34" r="26" fill="none" stroke="${qok>=8?"#34A853":qok>=5?"#E3B168":"#D08A7C"}" stroke-width="6" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" transform="rotate(-90 34 34)"/><text x="34" y="39" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="17" fill="#1F2630">${qok}/${QS.length}</text></svg><span>${msg}</span></div>`; replay($("#qq"),"swap");
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ const a=$("#qq .arc"); if(a) a.style.strokeDashoffset=C*(1-qok/QS.length); }));
+    $("#qo").innerHTML=`<button class="opt" id="again" style="grid-column:1/-1">Repetir treino</button>`; $("#qx").innerHTML=""; $("#qn").textContent="Treino concluído"; $("#again").onclick=()=>{qi=0;qok=0;drawQ();}; if(qok>=8) confettiFrom($("#qq"),110); return; }
+  const [q,a]=QS[qi]; $("#qn").textContent=`Situação ${qi+1} de ${QS.length}`; $("#qs").textContent=`${qok} certas`; $("#qq").textContent=q; replay($("#qq"),"swap"); $("#qx").innerHTML="";
+  $("#qo").innerHTML=LEVELS.map((L,k)=>`<button class="opt" data-k="${L.k}" style="--i:${k}">${L.n}</button>`).join("");
+  $("#qo").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ if($("#qx").innerHTML) return; const right=b.dataset.k===a; if(right){ qok++; replay($("#qs"),"bump"); confettiFrom(b,36); } $("#qo").querySelectorAll(".opt").forEach(x=>{ x.style.animationDelay="0s"; x.classList.toggle("ok",x.dataset.k===a); x.classList.toggle("ko",x===b&&!right); }); const L=LEVELS.find(l=>l.k===a); {const ii=LEVELS.indexOf(L), jj=Math.min(ii+1,LEVELS.length-1); setRoute(ii,jj,`<b>${L.n}.</b> ${L.d}`); pos=STOPS[ii]; place(pos); drive(ii,true,()=>showExit(ii));} $("#qs").textContent=`${qok} certas`; $("#qbar").style.width=(100*(qi+1)/QS.length)+"%";
     $("#qx").innerHTML=`<div class="explain"><b>${right?"Certo.":"Não é bem isso."}</b> Nível ${LEVELS.indexOf(L)+1} · ${L.n} — ${expl(a,q)} <button class="chip" id="nx" style="margin-top:8px;display:block">Próxima →</button></div>`; $("#nx").onclick=()=>{qi++;drawQ();}; }); }
 drawQ();
+
+/* --- aparecimento ao fazer scroll + luz que segue o cursor nos cartões --- */
+(function(){ const items=document.querySelectorAll(".reveal");
+  if(!("IntersectionObserver" in window)||REDUCED){ items.forEach(n=>n.classList.add("in")); return; }
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }),{threshold:.08,rootMargin:"0px 0px -40px 0px"});
+  items.forEach(n=>io.observe(n)); })();
+if(matchMedia("(hover:hover) and (pointer:fine)").matches) document.querySelectorAll(".card").forEach(c=>c.addEventListener("pointermove",e=>{ const r=c.getBoundingClientRect(); c.style.setProperty("--mx",(e.clientX-r.left)+"px"); c.style.setProperty("--my",(e.clientY-r.top)+"px"); }));
 </script>
 </body>
 </html>
