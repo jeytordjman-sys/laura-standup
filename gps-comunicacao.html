@@ -464,7 +464,7 @@ function routeSteps(a,b){ if(a===b) return [`Estás em ${LEVELS[a].n}. Escolhe u
   out.push(dir>0? `Chegaste a ${LEVELS[b].n}: a mudança ganha permissão e sentido.` : `Chegaste a ${LEVELS[b].n}: o sentido tornou-se concreto e visível.`); return out; }
 const fromS=$("#fromS"), toS=$("#toS");
 LEVELS.forEach((L,i)=>{ fromS.add(new Option(`${L.n} — ${L.q}`,i)); toS.add(new Option(`${L.n} — ${L.q}`,i)); });
-fromS.onchange=()=>{ const a=+fromS.value; setRoute(a,B,`<b>${LEVELS[a].n}.</b> ${LEVELS[a].d}`); drive(a,true,()=>showExit(a)); };
+fromS.onchange=()=>{ const a=+fromS.value; const b= a===LEVELS.length-1 ? a-1 : a+1; setRoute(a,b, b>a? `<b>${LEVELS[a].n}.</b> ${LEVELS[a].d} <b>Resposta:</b> ${LEVELS[a].r}` : `<b>Já estás no topo.</b> Daqui a viagem é descer: traduzir o sentido em quem és, no que acreditas e no que fazes.`); drive(a,true,()=>showExit(a)); };
 toS.onchange=()=>{ const b=+toS.value; setRoute(A,b, b===A? `<b>Partida e destino iguais.</b> Escolhe um nível acima para ganhar perspetiva, ou abaixo para tornar concreto.` : b>A? `<b>Subir até ${LEVELS[b].n}.</b> Cada nível acima dá permissão e sentido ao que está abaixo.` : `<b>Descer até ${LEVELS[b].n}.</b> Traduzir o que está acima em algo cada vez mais concreto e observável.`); banner(b>A?"↑":b<A?"↓":"●",`${LEVELS[A].n} → ${LEVELS[b].n}`,"toca no volante para navegar"); };
 function setRoute(a,b,why){ A=a; B=b; const pa=road.getPointAtLength(LEN*STOPS[a]), pb=road.getPointAtLength(LEN*STOPS[b]);
   $("#pinA").setAttribute("transform",`translate(${pa.x},${pa.y+22})`); $("#pinB").setAttribute("transform",`translate(${pb.x},${pb.y})`);
